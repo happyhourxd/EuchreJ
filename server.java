@@ -17,6 +17,9 @@ public class server {
             ss = new ServerSocket(this.port);
             
         }
+        catch(IOException i) {
+            System.out.println("error: " + i);
+        }
     }
 
 }
