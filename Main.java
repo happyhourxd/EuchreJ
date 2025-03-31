@@ -1,4 +1,4 @@
-public class main {
+public class Main {
     
     //todo
     //determine if client or server then act on that
