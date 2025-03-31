@@ -1,5 +1,5 @@
-There are two main files; a client.java file and a server.java file
+Run main to play the game!
 
-The server.java file needs to be running for the clients to connect to it.
+run main with s as an argument for the server
 
-They will enter the IP and port of the server.java file
+localhost and 5000 are the defualt ports
