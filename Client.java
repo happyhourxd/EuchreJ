@@ -1,7 +1,7 @@
-public class client {
+public class Client {
     
 
-    public client(String addr, int port) {
+    public Client(String addr, int port) {
 
     }
 }
