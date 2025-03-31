@@ -11,10 +11,10 @@ public class Main {
     public static void main(String[] args) {
         if (args[0] == "s") {
             isServer = true;
-            server server = new server(port);
+            Server server = new Server(port);
         }
         else {
-            client client = new client(addr, port);
+            Client client = new Client(addr, port);
         }
     }
 }

@@ -2,19 +2,19 @@ import java.util.ArrayList;
 import java.net.*;
 import java.io.*;
 
-public class server {
+public class Server {
     
     int port;
     int connections = 0;
     ArrayList<Socket> playerSockets; //a list of the player sockets
-    ArrayList<player> players; //a list of the players
-    player tempPlayer;
+    ArrayList<Player> players; //a list of the players
+    Player tempPlayer;
     private Socket s = null;
     private ServerSocket ss = null;
     private ObjectInputStream in = null;
     private ObjectOutputStream out = null;
 
-    public server(int port) {
+    public Server(int port) {
         this.port = port;
 
         try {
@@ -31,7 +31,7 @@ public class server {
             for(Socket p : playerSockets) {//loop to get players and add them to the list
                 //out = new DataOutputStream( new BufferedOutputStream(p.getOutputStream()));
                 in = new ObjectInputStream(p.getInputStream());
-                player tempPlayer = (player) in.readObject(); //make a temp player from the user's connected
+                Player tempPlayer = (Player) in.readObject(); //make a temp player from the user's connected
                 players.add(tempPlayer);
             }
 
@@ -44,7 +44,7 @@ public class server {
             }
         }
 
-    public ArrayList<player> getPlayers() {
+    public ArrayList<Player> getPlayers() {
         return players;
     }
 
