@@ -27,42 +27,9 @@ public class Deck {
         deckCards.addAll(lastHalfCards);
         deckCards.addAll(firstHalfCards);
     }
-    /* idk... deal way euchre works probably much better way to do it..
-    public void dealDeck(){
-        int players = 4;
-        int cardsPer = 5;
-            for(int i=0; i<players; i++){
-                if(playerCards[i].size()==0){
-                    if(i%2==0){
-                        for(int j=0; j<3; j++){
-                        playerCards[i].add(deckCards.get(0));
-                        deckCards.remove(0);
-                        deckCards.trimToSize;
-                        }
-                    }
-                    else{
-                        for(int j=0; j<2; j++){
-                        playerCards[i].add(deckCards.get(0));
-                        deckCards.remove(0);
-                        }
-                    }
-                }
-                else{
-                    if(i%2==0){
-                        for(int j=0; j<2; j++){
-                        playerCards[i].add(deckCards.get(0));
-                        deckCards.remove(0);
-                        deckCards.trimToSize;
-                        }
-                    }
-                    else{
-                        for(int j=0; j<3; j++){
-                        playerCards[i].add(deckCards.get(0));
-                        deckCards.remove(0);
-                        }
-                    }
-                }
-            }
-        }
-    */
+    public Card drawCard(){
+        Card topCard= deckCards.remove(0);
+        deckCards.trimToSize();
+        return topCard;
+    }
 }

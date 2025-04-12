@@ -44,7 +44,9 @@ public class Player implements Serializable{
     public String getName() {
         return name;
     }
-
+    public ArrayList<Card> getCards() {
+        return cards;
+    }
     public String toString() {
         return "Id = " + getId() + "Name = " + getName();
     }
