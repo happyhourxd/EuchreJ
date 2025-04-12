@@ -8,6 +8,7 @@ public class Player implements Serializable{
     String name; // the players name, a user input
     int score; // the current score of the team
     int team; // the team they belong to ether 1 or 2
+    boolean dealer; // if player is dealer or not
     ArrayList<Card> cards;  // the list of the cards in the players hand
 
     public Player(int id, String name) { // player constructor
