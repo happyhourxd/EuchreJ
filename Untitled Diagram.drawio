@@ -1,9 +1,24 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64; rv:137.0) Gecko/20100101 Firefox/137.0" version="26.2.12">
   <diagram name="Page-1" id="3-hoNx-oFPBd3e3wgJj-">
-    <mxGraphModel>
+    <mxGraphModel dx="985" dy="520" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="-2NJOU67YEYeew-TCaY0-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="-2NJOU67YEYeew-TCaY0-1" target="-2NJOU67YEYeew-TCaY0-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="-2NJOU67YEYeew-TCaY0-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="-2NJOU67YEYeew-TCaY0-1" target="-2NJOU67YEYeew-TCaY0-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="-2NJOU67YEYeew-TCaY0-1" value="Main" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="330" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="-2NJOU67YEYeew-TCaY0-2" value="Server" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="190" y="420" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="-2NJOU67YEYeew-TCaY0-4" value="Client x4" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="450" y="420" width="120" height="60" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
