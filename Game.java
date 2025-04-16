@@ -3,25 +3,32 @@ import java.util.Scanner;
 
 
 public class Game {
+    private ArrayList<Player> playerArray;
+    private int step;
     private String trump; // The trump suit for the current round
     private Deck deck; // The deck of cards
-    Player playerArray[] = {new Player(1, "Player1"),// Placeholder Array of players
-                            new Player(2, "Player2"),
-                            new Player(3, "Player3"),
-                            new Player(4, "Player4")};
+    private int[] teamScores;
+    private int winningScore = 10;
 
-    public Game() {
-        deck = new Deck(); // Initialize the deck
+    public Game(ArrayList<Player>playerArray, int step) {
+        this.playerArray=playerArray;
+        this.step=step;
     }
-
+    
+    public void startGame(){
+        System.out.println("Starting Euchre");
+        while (teamScores[0]<winningScore && teamScores[1]<winningScore) {
+            initializeRound();
+        };
+    }
     // Initialize a new round
     public void initializeRound() {
-        deck.initializeDeck(); // Create a new deck
-        deck.shuffle(); // Shuffle the deck
+        deck.initializeDeck(); // Create a new shuffled deck
         dealCards(); // Deal cards to players
-        setTrump(); // Determine the trump suit
+        setTrump(); // Determine the trump suits
         setCardValue(trump); // Set card values based on the trump suit
     }
+
     //TRUMP SUIT INITIALIZATION; Should probably be own file
     // Set the potential trump suit by drawing the top card from the deck
     private void setPotentialTrump() {
@@ -36,7 +43,7 @@ public class Game {
 
         // First round: Ask each player if they accept the trump suit
         for (int i = 0; i < 4; i++) { // Loop through all 4 players
-            accepted = acceptTrump(playerArray[i]); // Ask the player if they accept the trump suit
+            accepted = acceptTrump(playerArray.get(i)); // Ask the player if they accept the trump suit
             if (accepted == 1) { // If a player accepts the trump suit
                 break; // Exit the loop
             }
@@ -47,14 +54,14 @@ public class Game {
         if (accepted == 0) {
             int wantsToSet=0;
             for (int i=0;i<4;i++){
-                askSetTrump(playerArray[i]);
+                askSetTrump(playerArray.get(i));
                 if (wantsToSet==1){
                     wantsToSet=i;
                     break;
                 }
             }
             if (wantsToSet!=0){
-                trump=askSuit(playerArray[wantsToSet]);
+                trump=askSuit(playerArray.get(wantsToSet));
             }
             else{
                 initializeRound();
@@ -168,7 +175,7 @@ public class Game {
 
         // Assign the dealt cards to each player
         for (int i = 0; i < players; i++) {
-            playerArray[i].setCards(playerCards.get(i)); // Set the player's hand
+            playerArray.get(i).setCards(playerCards.get(i)); // Set the player's hand
         }
     }
     //Set Card Values given trump card
@@ -198,7 +205,5 @@ public class Game {
             }
         }
     }
-    /*
-     * Ready to actually add play logic
-     */
+    
 }

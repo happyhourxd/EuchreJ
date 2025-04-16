@@ -50,4 +50,7 @@ public class Player implements Serializable{
     public String toString() {
         return "Id = " + getId() + "Name = " + getName();
     }
+    public int getTeam() {
+        return team;
+    }
 }
