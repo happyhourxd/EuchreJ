@@ -1,4 +1,4 @@
-import java.util.*;
+
 public class Main {
     
     //todo
@@ -20,7 +20,6 @@ public class Main {
 
             }
         } else {
-            isServer = true;
             Server server = new Server(port);
             while (isServer) {
                 
