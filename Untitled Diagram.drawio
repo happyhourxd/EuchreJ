@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64; rv:137.0) Gecko/20100101 Firefox/137.0" version="26.2.12">
   <diagram name="Page-1" id="3-hoNx-oFPBd3e3wgJj-">
-    <mxGraphModel dx="1680" dy="887" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="476" dy="251" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -110,6 +110,23 @@
             <mxPoint x="20" y="77.14285714285714" as="sourcePoint" />
             <mxPoint x="70" y="12.857142857142858" as="targetPoint" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="up3UMuSQXLqQoOLamiaC-41" value="GUI" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="450" y="620" width="140" height="200" as="geometry">
+            <mxRectangle x="450" y="480" width="90" height="30" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="up3UMuSQXLqQoOLamiaC-42" value="Shows the user whats happening" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="up3UMuSQXLqQoOLamiaC-41">
+          <mxGeometry y="30" width="140" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="up3UMuSQXLqQoOLamiaC-43" value="Will communicate back to the client object with action listeners." style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="up3UMuSQXLqQoOLamiaC-41">
+          <mxGeometry y="70" width="140" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="up3UMuSQXLqQoOLamiaC-46" value="should have functions that update depending on what is happening in the game." style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="up3UMuSQXLqQoOLamiaC-41">
+          <mxGeometry y="120" width="140" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="up3UMuSQXLqQoOLamiaC-45" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;shape=flexArrow;" edge="1" parent="1" source="up3UMuSQXLqQoOLamiaC-7" target="up3UMuSQXLqQoOLamiaC-41">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
