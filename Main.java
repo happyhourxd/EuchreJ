@@ -1,7 +1,8 @@
+
 public class Main {
     
     //todo
-    //determine if client or server then act on that
+    //determine if client or server by using arguments
     //gameplay elements
 
     static boolean isServer = false;
@@ -9,12 +10,20 @@ public class Main {
     static String addr = "127.0.0.1";
 
     public static void main(String[] args) {
-        if (args[0] == "s") {
+        if (args.length > 0) {
             isServer = true;
-            Server server = new Server(port);
         }
-        else {
+        if (!isServer) {
             Client client = new Client(addr, port);
+            client.join();
+            while (true) {
+
+            }
+        } else {
+            Server server = new Server(port);
+            while (isServer) {
+                
+            }
         }
     }
 }

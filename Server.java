@@ -9,39 +9,44 @@ public class Server {
     ArrayList<Socket> playerSockets; //a list of the player sockets
     ArrayList<Player> players; //a list of the players
     Player tempPlayer;
-    private Socket s = null;
-    private ServerSocket ss = null;
-    private ObjectInputStream in = null;
-    private ObjectOutputStream out = null;
+    private Socket s;
+    private ServerSocket ss;
+    private ObjectInputStream in;
+    private ObjectOutputStream out;
 
     public Server(int port) {
         this.port = port;
+        playerSockets = new ArrayList<>();
 
         try {
             ss = new ServerSocket(this.port); //make a new server socket
 
             System.out.println("Starting server... \n Awaiting 4 clients");
 
-            while(connections > 5) { // wait for 4 players
+            while(connections < 4) { // wait for 4 players
                 playerSockets.add(ss.accept());
                 connections++;
                 System.out.println("A Connection was made");
             } // all 4 players have connected
-
+            System.out.println("All 4 clients joined!");
+        } catch (SocketException se) {
+            System.exit(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
             for(Socket p : playerSockets) {//loop to get players and add them to the list
                 //out = new DataOutputStream( new BufferedOutputStream(p.getOutputStream()));
                 in = new ObjectInputStream(p.getInputStream());
                 Player tempPlayer = (Player) in.readObject(); //make a temp player from the user's connected
                 players.add(tempPlayer);
             }
-
-            } catch (SocketException se) {
-                System.exit(0);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException cn) {
-                cn.printStackTrace();
-            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException cn) {
+            cn.printStackTrace();
+        }
+            
         }
 
     public ArrayList<Player> getPlayers() {

@@ -1,0 +1,146 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64; rv:137.0) Gecko/20100101 Firefox/137.0" version="26.2.12">
+  <diagram name="Page-1" id="3-hoNx-oFPBd3e3wgJj-">
+    <mxGraphModel dx="680" dy="359" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="-2NJOU67YEYeew-TCaY0-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;shape=flexArrow;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="-2NJOU67YEYeew-TCaY0-1" target="up3UMuSQXLqQoOLamiaC-2" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="510" y="420" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="-2NJOU67YEYeew-TCaY0-1" value="Main" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="320" y="330" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="-2NJOU67YEYeew-TCaY0-17" value="" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="-2NJOU67YEYeew-TCaY0-1" target="up3UMuSQXLqQoOLamiaC-9" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="290" y="380" as="sourcePoint" />
+            <mxPoint x="180" y="420" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="180" y="360" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="up3UMuSQXLqQoOLamiaC-2" value="Client x4" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="450" y="420" width="140" height="150" as="geometry">
+            <mxRectangle x="450" y="480" width="90" height="30" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="up3UMuSQXLqQoOLamiaC-3" value="Player&#39;s ID" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="up3UMuSQXLqQoOLamiaC-2">
+          <mxGeometry y="30" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="up3UMuSQXLqQoOLamiaC-4" value="Game Obj" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="up3UMuSQXLqQoOLamiaC-2">
+          <mxGeometry y="60" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="up3UMuSQXLqQoOLamiaC-7" value="Matches player&#39;s ID to one of the players in the game object to update the user" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="up3UMuSQXLqQoOLamiaC-2">
+          <mxGeometry y="90" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="up3UMuSQXLqQoOLamiaC-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;shape=arrow;" edge="1" parent="1" source="up3UMuSQXLqQoOLamiaC-9" target="up3UMuSQXLqQoOLamiaC-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="up3UMuSQXLqQoOLamiaC-9" value="Server" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="110" y="420" width="140" height="150" as="geometry">
+            <mxRectangle x="450" y="480" width="90" height="30" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="up3UMuSQXLqQoOLamiaC-10" value="Players arrayList" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="up3UMuSQXLqQoOLamiaC-9">
+          <mxGeometry y="30" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="up3UMuSQXLqQoOLamiaC-11" value="Game Obj" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="up3UMuSQXLqQoOLamiaC-9">
+          <mxGeometry y="60" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="up3UMuSQXLqQoOLamiaC-12" value="Communicates to the client, sends the entire game object over so the client can read it" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="up3UMuSQXLqQoOLamiaC-9">
+          <mxGeometry y="90" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="up3UMuSQXLqQoOLamiaC-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="up3UMuSQXLqQoOLamiaC-12" target="up3UMuSQXLqQoOLamiaC-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="up3UMuSQXLqQoOLamiaC-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="up3UMuSQXLqQoOLamiaC-3" target="up3UMuSQXLqQoOLamiaC-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="up3UMuSQXLqQoOLamiaC-15" value="The client object will initialize its own player and send it to the server" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="250" y="430" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="up3UMuSQXLqQoOLamiaC-16" value="Game Obj" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="110" y="660" width="140" height="330" as="geometry">
+            <mxRectangle x="450" y="480" width="90" height="30" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="up3UMuSQXLqQoOLamiaC-47" value="variables not limited to:" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="up3UMuSQXLqQoOLamiaC-16">
+          <mxGeometry y="30" width="140" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="up3UMuSQXLqQoOLamiaC-48" value="the &#39;step&#39; of the game to keep the server and client up to date" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="up3UMuSQXLqQoOLamiaC-47">
+          <mxGeometry y="30" width="140" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="up3UMuSQXLqQoOLamiaC-49" value="player arrayList" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="up3UMuSQXLqQoOLamiaC-47">
+          <mxGeometry y="80" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="up3UMuSQXLqQoOLamiaC-50" value="Item 3" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="up3UMuSQXLqQoOLamiaC-47">
+          <mxGeometry y="110" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="up3UMuSQXLqQoOLamiaC-17" value="Initialized with A player arrayList" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="up3UMuSQXLqQoOLamiaC-16">
+          <mxGeometry y="170" width="140" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="up3UMuSQXLqQoOLamiaC-21" value="Each &#39;step&#39; in the game will be a method that returns the new &lt;br&gt;player arraList so the Server Object can hand it back to the client" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="up3UMuSQXLqQoOLamiaC-16">
+          <mxGeometry y="220" width="140" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="up3UMuSQXLqQoOLamiaC-26" value="Key:" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="670" y="310" width="140" height="350" as="geometry" />
+        </mxCell>
+        <mxCell id="up3UMuSQXLqQoOLamiaC-22" value="Object" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="up3UMuSQXLqQoOLamiaC-26">
+          <mxGeometry y="30" width="140" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="up3UMuSQXLqQoOLamiaC-23" value="Usually will be constructor inputs/main function" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="up3UMuSQXLqQoOLamiaC-22">
+          <mxGeometry y="30" width="140" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="up3UMuSQXLqQoOLamiaC-24" value="Side function/constraints" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="up3UMuSQXLqQoOLamiaC-22">
+          <mxGeometry y="80" width="140" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="up3UMuSQXLqQoOLamiaC-25" value="Item 3" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="up3UMuSQXLqQoOLamiaC-22">
+          <mxGeometry y="120" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="up3UMuSQXLqQoOLamiaC-34" value="" style="group" vertex="1" connectable="0" parent="up3UMuSQXLqQoOLamiaC-22">
+          <mxGeometry y="150" width="140" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="up3UMuSQXLqQoOLamiaC-30" value="&lt;div&gt;This arrow means contains an instance of&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="up3UMuSQXLqQoOLamiaC-34">
+          <mxGeometry width="140" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="up3UMuSQXLqQoOLamiaC-31" value="" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;entryX=0.714;entryY=0.917;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="up3UMuSQXLqQoOLamiaC-34">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="40.01999999999998" y="50" as="sourcePoint" />
+            <mxPoint x="99.98000000000002" y="50.01999999999998" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="up3UMuSQXLqQoOLamiaC-40" value="" style="group" vertex="1" connectable="0" parent="up3UMuSQXLqQoOLamiaC-34">
+          <mxGeometry y="80" width="140" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="up3UMuSQXLqQoOLamiaC-36" value="&lt;div&gt;This arrow shows functionality/communication&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="up3UMuSQXLqQoOLamiaC-40">
+          <mxGeometry width="140" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="up3UMuSQXLqQoOLamiaC-37" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.786;entryY=0.857;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="up3UMuSQXLqQoOLamiaC-40" target="up3UMuSQXLqQoOLamiaC-36">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="20" y="77.14285714285714" as="sourcePoint" />
+            <mxPoint x="70" y="12.857142857142858" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="up3UMuSQXLqQoOLamiaC-41" value="GUI" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="450" y="620" width="140" height="200" as="geometry">
+            <mxRectangle x="450" y="480" width="90" height="30" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="up3UMuSQXLqQoOLamiaC-42" value="Shows the user whats happening" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="up3UMuSQXLqQoOLamiaC-41">
+          <mxGeometry y="30" width="140" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="up3UMuSQXLqQoOLamiaC-43" value="Will communicate back to the client object with action listeners." style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="up3UMuSQXLqQoOLamiaC-41">
+          <mxGeometry y="70" width="140" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="up3UMuSQXLqQoOLamiaC-46" value="should have functions that update depending on what is happening in the game." style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="up3UMuSQXLqQoOLamiaC-41">
+          <mxGeometry y="120" width="140" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="up3UMuSQXLqQoOLamiaC-45" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;shape=flexArrow;" edge="1" parent="1" source="up3UMuSQXLqQoOLamiaC-7" target="up3UMuSQXLqQoOLamiaC-41">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
