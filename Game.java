@@ -102,10 +102,10 @@ public class Game {
                 leadSuit = playedCard.getSuit(); // Set the lead suit
             }
             if (winningCard == null || 
-                (playedCard.getSuit().equals(trump) && !winningCard.getSuit().equals(trump)) || 
-                (playedCard.getSuit().equals(leadSuit) && !winningCard.getSuit().equals(trump)) || 
-                (playedCard.getSuit().equals(winningCard.getSuit()) && playedCard.getValue() > winningCard.getValue())) {
-
+                (playedCard.getSuit().equals(trump) && !winningCard.getSuit().equals(trump)) || //Played card trump and winning card not trump
+                (playedCard.getSuit().equals(leadSuit) && !winningCard.getSuit().equals(trump)) || //Played Card Lead Suit and winning card not trump
+                (playedCard.getSuit().equals(winningCard.getSuit()) && playedCard.getValue() > winningCard.getValue())|| //Played Card of same suit as winning suit and is greater
+                (playedCard.getValue()==32&&playedCard.getValue()>winningCard.getValue())) { //Left Bower Played
                 // Update the winning card and the winner
                 winningCard = playedCard;
                 winner = player; // Update the winner of the trick
