@@ -287,6 +287,7 @@ public class Game {
                     } else { // For other cards in the trump suit
                         card.setValue(card.getValue() * 2); // Double the value
                     }
+                    //Left Bower Value
                 } else if (card.getValue() == 11 && card.getSuit() == "diamonds" && trumpSuit == "hearts") {
                     card.setValue((card.getValue() * 3) - 1); // Adjust value for Left Bower
                 } else if (card.getValue() == 11 && card.getSuit() == "hearts" && trumpSuit == "diamonds") {
