@@ -1,139 +1,162 @@
 import java.util.ArrayList;
-import java.util.Scanner;
-
 
 public class Game {
     private ArrayList<Player> playerArray;
-    private int step;
     private String trump; // The trump suit for the current round
     private Deck deck; // The deck of cards
     private int[] teamScores;
-    private int winningScore = 10;
+    private int winningScore;
+    private Player dealer;
+    private ArrayList<Player> dealingOrder;
 
-    public Game(ArrayList<Player>playerArray, int step) {
-        this.playerArray=playerArray;
-        this.step=step;
-    }
-    
-    public void startGame(){
-        System.out.println("Starting Euchre");
-        while (teamScores[0]<winningScore && teamScores[1]<winningScore) {
-            initializeRound();
-        };
-    }
-    // Initialize a new round
-    public void initializeRound() {
-        deck.initializeDeck(); // Create a new shuffled deck
-        dealCards(); // Deal cards to players
-        setTrump(); // Determine the trump suits
-        setCardValue(trump); // Set card values based on the trump suit
+    public Game(ArrayList<Player> playerArray, int winningScore) {
+        this.playerArray = playerArray;
+        this.deck = new Deck();
+        this.teamScores = new int[] {0, 0};
+        this.winningScore = winningScore;
     }
 
-    //TRUMP SUIT INITIALIZATION; Should probably be own file
+    public int startGame(Server server) {
+        while (teamScores[0] < winningScore && teamScores[1] < winningScore) {
+            deckSetup(server);
+            dealOrder(server);
+            dealCards(server);
+            if(bidding(server)==-1){
+                continue;
+            } 
+            setCardValue(trump);
+            playRound(server);
+        }
+        return 0;
+    }
+
+    private void deckSetup(Server server) {
+        if (deck.getSize() != 24) {
+            deck = new Deck();
+        }
+        deck.shuffle();
+    }
+    private void dealOrder(Server server){
+        for (Player player : playerArray) {
+            if (player.getDealer()) {
+                dealer = player;
+                server.sendUpdateToClients(player.getName() + " is the dealer.");
+                break;
+            }
+        }
+        dealingOrder = new ArrayList<Player>();
+        int playerIndex=playerArray.indexOf(dealer)+1;
+        for(int i=0; i<3;i++){
+            if(playerIndex>3){
+                playerIndex=0;
+            }
+            dealingOrder.add(playerArray.get(playerIndex));
+            playerIndex++;
+        }
+    }
+
+
+    private void playRound(Server server) {
+        for (int trickCount = 0; trickCount < 5; trickCount++) {
+            playTrick(server);
+        }
+        dealingOrder.get(0).setDealer(true);
+        dealer.setDealer(false);
+    }
+
+    private void playTrick(Server server) {
+        
+    }
+
     // Set the potential trump suit by drawing the top card from the deck
-    private void setPotentialTrump() {
+    private void setPotentialTrump(Server server) {
         trump = deck.drawCard().getSuit(); // Draw the top card and get its suit
+        server.sendUpdateToClients("The potential trump suit is: " + trump);
     }
-    
+
     // Determine the trump suit for the round
-    public void setTrump() {
-        setPotentialTrump(); // Set the initial potential trump suit
-        System.out.println(trump);
+    public int bidding(Server server) {
+        setPotentialTrump(server); // Set the initial potential trump suit
         int accepted = 0; // Flag to track if a player accepts the trump suit
 
         // First round: Ask each player if they accept the trump suit
-        for (int i = 0; i < 4; i++) { // Loop through all 4 players
-            accepted = acceptTrump(playerArray.get(i)); // Ask the player if they accept the trump suit
-            if (accepted == 1) { // If a player accepts the trump suit
-                break; // Exit the loop
+        for (Player player : dealingOrder) {
+            accepted = acceptTrump(player, server);
+            if (accepted == 1) {
+                return 0;
             }
         }
-
-        // Second round: Ask each player to select trump suit
-        
+        // Second round: Ask each player to select a trump suit
         if (accepted == 0) {
-            int wantsToSet=0;
-            for (int i=0;i<4;i++){
-                askSetTrump(playerArray.get(i));
-                if (wantsToSet==1){
-                    wantsToSet=i;
+            Player wantsToSet = null;
+            for (Player player : dealingOrder) {
+                if (askSetTrump(player, server) == 1) {
+                    wantsToSet=player;
                     break;
                 }
             }
-            if (wantsToSet!=0){
-                trump=askSuit(playerArray.get(wantsToSet));
-            }
-            else{
-                initializeRound();
+            if (wantsToSet != null) {
+                trump = askSuit(wantsToSet, server);
+                return 0;
             }
         }
+        return -1; // Default return value if no conditions are met
     }
 
-    //PLACEHOLDER METHODS
     // Ask a player if they accept the current trump suit
-    public int acceptTrump(Player player) {
-        Scanner scanner = new Scanner(System.in);
-        String response = "";
+    public int acceptTrump(Player player, Server server) {
+        String promptMessage = player.getName() + ", do you accept the trump suit (" + trump + ")? (yes/no):";
+        String response = server.promptPlayerForInput(player, promptMessage);
 
-        System.out.println(player.getName() + ", do you accept the trump suit (" + trump + ")? (yes/no):");
-        while (true) {
-            response = scanner.nextLine().toLowerCase(); // Read user input and convert to lowercase
+        if (response != null) {
+            response = response.toLowerCase();
             if (response.equals("yes")) {
-                System.out.println(player.getName() + " accepted the trump suit: " + trump);
-                scanner.close();
+                server.sendUpdateToClients(player.getName() + " accepted the trump suit: " + trump);
                 return 1; // Player accepts the trump suit
             } else if (response.equals("no")) {
-                System.out.println(player.getName() + " declined the trump suit.");
-                scanner.close();
+                server.sendUpdateToClients(player.getName() + " declined the trump suit.");
                 return 0; // Player declines the trump suit
-            } else {
-                System.out.println("Invalid response. Please enter 'yes' or 'no'.");
             }
         }
+        server.sendUpdateToClients("Invalid response or communication error.");
+        return 0; // Default to declining if an error occurs
     }
-    // Ask a player if they accept the current trump suit
-    public int askSetTrump(Player player) {
-        Scanner scanner = new Scanner(System.in);
-        String response = "";
 
-        System.out.println(player.getName() + "set trump suit? (yes/no):");
-        while (true) {
-            response = scanner.nextLine().toLowerCase(); // Read user input and convert to lowercase
+    // Ask a player if they want to set the trump suit
+    public int askSetTrump(Player player, Server server) {
+        String promptMessage = player.getName() + ", do you want to set the trump suit? (yes/no):";
+        String response = server.promptPlayerForInput(player, promptMessage);
+
+        if (response != null) {
+            response = response.toLowerCase();
             if (response.equals("yes")) {
-                scanner.close();
-                return 1; // Player accepts the trump suit
+                return 1; // Player wants to set the trump suit
             } else if (response.equals("no")) {
-                System.out.println(player.getName() + " declined the trump suit.");
-                scanner.close();
-                return 0; // Player declines the trump suit
-            } else {
-                System.out.println("Invalid response. Please enter 'yes' or 'no'.");
+                server.sendUpdateToClients(player.getName() + " declined to set the trump suit.");
+                return 0; // Player does not want to set the trump suit
             }
         }
+        server.sendUpdateToClients("Invalid response or communication error.");
+        return 0; // Default to declining if an error occurs
     }
+
     // Ask a player to choose a trump suit if no one accepts the initial trump suit
-    public String askSuit(Player player) {
-        Scanner scanner = new Scanner(System.in);
-        String suit = "";
+    public String askSuit(Player player, Server server) {
+        String promptMessage = player.getName() + ", choose a suit (hearts, spades, clubs, diamonds):";
+        String suit = server.promptPlayerForInput(player, promptMessage);
 
-        System.out.println( "Choose a suit (hearts, spades, clubs, diamonds):");
-        while (true) {
-            suit = scanner.nextLine().toLowerCase(); // Read user input and convert to lowercase
+        if (suit != null) {
+            suit = suit.toLowerCase();
             if (suit.equals("hearts") || suit.equals("spades") || suit.equals("clubs") || suit.equals("diamonds")) {
-                scanner.close();
-                break; // Valid suit entered
-            } else {
-                System.out.println("Invalid suit. Please enter one of: hearts, spades, clubs, diamonds.");
+                server.sendUpdateToClients(player.getName() + " chose the suit: " + suit);
+                return suit; // Return the chosen suit
             }
         }
-
-        System.out.println(player.getName() + " chose the suit: " + suit);
-        return suit; // Return the chosen suit
+        return "oop";
     }
-
     //DEAL CARD LOGIC
     // Deal cards to players in two rounds
-    public void dealCards() {
+    public void dealCards(Server server) {
         Card drawnCard;
         int players = 4; // Number of players
         ArrayList<ArrayList<Card>> playerCards = new ArrayList<>(); // List to hold each player's hand
@@ -175,9 +198,13 @@ public class Game {
 
         // Assign the dealt cards to each player
         for (int i = 0; i < players; i++) {
-            playerArray.get(i).setCards(playerCards.get(i)); // Set the player's hand
+            dealingOrder.get(i).setCards(playerCards.get(i)); // Set the player's hand
+        }
+        for (Player player : playerArray){
+            server.sendPlayerUpdate(player, player.getCards().toString());
         }
     }
+
     //Set Card Values given trump card
     public void setCardValue(String trumpSuit) {
         // Iterate through each player
@@ -205,5 +232,4 @@ public class Game {
             }
         }
     }
-    
 }

@@ -3,8 +3,7 @@ import java.util.Collections;
 
 public class Deck {
     private ArrayList<Card> deckCards;
-
-    public void initializeDeck() {
+    public Deck(){
         deckCards = new ArrayList<Card>();
         int[] cardNum = {9, 10, 11, 12, 13, 14}; // 9 = 9, 10 = 10, J = 11, Q = 12, K = 13, A = 14
         String[] cardSuit = {"hearts", "spades", "clubs", "diamonds"}; // card suit
@@ -14,7 +13,6 @@ public class Deck {
                 deckCards.add(new Card(num, suit)); // Assuming Card has a constructor Card(int number, String suit)
             }
         }
-        shuffle();
     }
 
     public void shuffle() {
@@ -31,5 +29,8 @@ public class Deck {
         Card topCard= deckCards.remove(0);
         deckCards.trimToSize();
         return topCard;
+    }
+    public int getSize(){
+        return deckCards.size();
     }
 }
