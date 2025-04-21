@@ -4,12 +4,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class tipCalculator extends Application {
+public class GUI extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("test.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("game.fxml"));
         Scene scene = new Scene(root);
-        stage.setTitle("Tip Calculator");
+        stage.setTitle("EuchreJ");
         stage.setScene(scene);
         stage.show();
     }

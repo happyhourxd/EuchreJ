@@ -1,26 +1,27 @@
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Player implements Serializable{
+public class Player implements Serializable {
 
-    private static final long serialVersionUID = 1L; // the serialVersionUID, should be updated each time player is updated, base 16 for funzies
+    private static final long serialVersionUID = 1L; // the serialVersionUID, should be updated each time player is
+                                                     // updated, base 16 for funzies
     int id; // will be the id, most likely the exact time in utc of creation
     String name; // the players name, a user input
     int score; // the current score of the team
     int team; // the team they belong to ether 1 or 2
-    ArrayList<Card> cards;  // the list of the cards in the players hand
+    ArrayList<Card> cards; // the list of the cards in the players hand
 
     public Player(int id, String name) { // player constructor
         this.id = id;
         this.name = name;
     }
 
-    public void setTeam(int team) { //set the team
+    public void setTeam(int team) { // set the team
         this.team = team;
     }
 
     public void setCards(ArrayList<Card> cards) { // used by the server to set the players hand happens each round
-        cards.clear(); //clears the hand before the round
+        cards.clear(); // clears the hand before the round
         this.cards = cards;
     }
 
@@ -33,7 +34,7 @@ public class Player implements Serializable{
             }
         }
         System.out.println("oop");
-        return new Card(0,null); //returns null card if isnt found shouldnt happen
+        return new Card(0, null); // returns null card if isnt found shouldnt happen
     }
 
     public int getId() {
