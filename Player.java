@@ -5,20 +5,22 @@ import java.util.ArrayList;
 
 public class Player implements Serializable {
 
-    private static final long serialVersionUID = 1L; // the serialVersionUID, should be updated each time player is updated, base 16 for funzies
+    private static final long serialVersionUID = 1L; // the serialVersionUID, should be updated each time player is
+                                                     // updated, base 16 for funzies
     int id; // will be the id, most likely the exact time in utc of creation
     String name; // the player's name, a user input
     int score; // the current score of the team
     int team; // the team they belong to, either 1 or 2
     boolean dealer; // if player is dealer or not
     ArrayList<Card> cards; // the list of the cards in the player's hand
-    transient ObjectOutputStream out; // The player's output stream (transient to avoid serialization)
+    transient ObjectOutputStream out; // the player's output stream 
     transient ObjectInputStream in;
 
     public Player(int id, String name) { // player constructor
         this.id = id;
         this.name = name;
     }
+
 
     public void setTeam(int team) { // Set the team
         this.team = team;//0 or 1 to correspond with game score array
