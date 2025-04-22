@@ -10,6 +10,9 @@ public class Client {
     private DataOutputStream out;
     
     public Client(String addr, int port) {
+<<<<<<< HEAD
+    
+=======
         this.addr = addr;
         this.port = port;
         this.me = new Player((int) System.currentTimeMillis(), "name");
@@ -34,5 +37,6 @@ public class Client {
             
         }
 
+>>>>>>> origin/main
     }
 }
