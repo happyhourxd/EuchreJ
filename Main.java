@@ -1,3 +1,5 @@
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class Main {
     
@@ -10,20 +12,36 @@ public class Main {
     static String addr = "127.0.0.1";
 
     public static void main(String[] args) {
+
+
+
+
+        ArrayList<Player> tempPlst = new ArrayList<>();
+        tempPlst.add(new Player(1, "jane")); //default dealer
+        tempPlst.add(new Player(2, "jon"));
+        tempPlst.add(new Player(3, "jack"));
+        tempPlst.add(new Player(4, "phil"));
+        
+        //ServerTwo server = new ServerTwo(tempPlst);
+
+        try {
+        isServer = false;
         if (args.length > 0) {
-            isServer = true;
+            
         }
         if (!isServer) {
-            Client client = new Client(addr, port);
-            client.join();
-            while (true) {
-
-            }
+            
+                Client client = new Client(addr, port);
+                client.join();
+                client.reciveTrick();
+            
+            
         } else {
-            Server server = new Server(port);
-            while (isServer) {
-                
-            }
+            //Server server = new Server(port);
+            ServerTwo server = new ServerTwo(tempPlst);
         }
+        } catch (Exception e) {
+            System.out.println(e);
+        } 
     }
 }

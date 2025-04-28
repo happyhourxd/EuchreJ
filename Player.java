@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Player implements Serializable {
 
-    private static final long serialVersionUID = 1L; // the serialVersionUID, should be updated each time player is
+    private static final long serialVersionUID = 21; // the serialVersionUID, should be updated each time player is
                                                      // updated, base 16 for funzies
     int id; // will be the id, most likely the exact time in utc of creation
     String name; // the player's name, a user input
@@ -19,11 +19,16 @@ public class Player implements Serializable {
     public Player(int id, String name) { // player constructor
         this.id = id;
         this.name = name;
+        this.cards = new ArrayList<>();
     }
 
 
     public void setTeam(int team) { // Set the team
         this.team = team;//0 or 1 to correspond with game score array
+    }
+
+    public void giveCard(Card card) {
+        this.cards.add(card);
     }
 
     public void setCards(ArrayList<Card> cards) { // Used by the server to set the player's hand, happens each round
@@ -39,12 +44,15 @@ public class Player implements Serializable {
                 return currCard;
             }
         }
-        System.out.println("oop");
         return new Card(0, null); // Returns a null card if not found, shouldn't happen
     }
 
     public int getId() {
         return id;
+    }
+
+    public void clearHand() {
+        setCards(new ArrayList<>());
     }
 
     public String getName() {
