@@ -15,9 +15,18 @@ public class Deck {
         }
     }
 
+    public String toString() {
+        String returnValue = "";
+        for (Card c : deckCards) 
+            returnValue += c + ", ";
+        return returnValue;
+    }
+    
+
     public void shuffle() {
         Collections.shuffle(deckCards); // shuffle the deck
     }
+    
     public void cutDeck(){//cut deck 
         ArrayList<Card> firstHalfCards = new ArrayList<>(deckCards.subList(0, 11));
         ArrayList<Card> lastHalfCards = new ArrayList<>(deckCards.subList(11, deckCards.size()));
@@ -25,11 +34,17 @@ public class Deck {
         deckCards.addAll(lastHalfCards);
         deckCards.addAll(firstHalfCards);
     }
+
     public Card drawCard(){
-        Card topCard= deckCards.remove(0);
+        Card topCard = deckCards.remove(0);
         deckCards.trimToSize();
         return topCard;
     }
+
+    public Card getTop() {
+        return deckCards.get(0);
+    }
+
     public int getSize(){
         return deckCards.size();
     }
