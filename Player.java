@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Player implements Serializable {
 
-    private static final long serialVersionUID = 1L; // the serialVersionUID, should be updated each time player is
+    private static final long serialVersionUID = 21; // the serialVersionUID, should be updated each time player is
                                                      // updated, base 16 for funzies
     int id; // will be the id, most likely the exact time in utc of creation
     String name; // the player's name, a user input
@@ -39,7 +39,6 @@ public class Player implements Serializable {
                 return currCard;
             }
         }
-        System.out.println("oop");
         return new Card(0, null); // Returns a null card if not found, shouldn't happen
     }
 
