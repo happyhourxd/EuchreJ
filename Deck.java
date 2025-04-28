@@ -1,8 +1,11 @@
 import java.util.ArrayList;
 import java.util.Collections;
+import java.io.Serializable;
 
-public class Deck {
+public class Deck implements Serializable{
+    private static final long serialVersionUID = 00;
     private ArrayList<Card> deckCards;
+
     public Deck(){
         deckCards = new ArrayList<Card>();
         int[] cardNum = {9, 10, 11, 12, 13, 14}; // 9 = 9, 10 = 10, J = 11, Q = 12, K = 13, A = 14
