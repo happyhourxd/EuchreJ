@@ -1,8 +1,13 @@
-public class Card {
+import java.io.Serializable;
+
+public class Card implements Serializable {
     
+    private static final long serialVersionUID = 00;
     int number; // the number of the card 9 = 9, 10 = 10, J = 11, Q = 12, K = 13, A = 14
     String suit; // hearts, spaces, clubs, diamands
     int value;
+
+
     public Card(int number, String suit){ //just a card constructor
         this.number = number;
         this.suit = suit;
