@@ -8,6 +8,11 @@ public class Card {
         this.suit = suit;
         this.value = number;
     }
+
+    public String toString() {
+        return number + suit;
+    }
+
     public int getNumber() {
         return number;
     }
