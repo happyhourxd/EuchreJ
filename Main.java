@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Main {
@@ -16,30 +17,31 @@ public class Main {
 
 
         ArrayList<Player> tempPlst = new ArrayList<>();
-            tempPlst.add(new Player(1, "jane"));
-            tempPlst.add(new Player(2, "jon"));
-            tempPlst.add(new Player(3, "jack"));
-            tempPlst.add(new Player(4, "phil"));
-            Trick game = new Trick(tempPlst);
-            game.deal();
-            System.out.println(game.getPlayer(1).getCards());
-            while (!isServer) {
-                
-            }
+        tempPlst.add(new Player(1, "jane")); //default dealer
+        tempPlst.add(new Player(2, "jon"));
+        tempPlst.add(new Player(3, "jack"));
+        tempPlst.add(new Player(4, "phil"));
+        
+        //ServerTwo server = new ServerTwo(tempPlst);
 
-
+        try {
+        isServer = false;
         if (args.length > 0) {
-            isServer = true;
-        }
-        if (!isServer) {
-            Client client = new Client(addr, port);
-            client.join();
-            while (true) {
-
-            }
-        } else {
-            Server server = new Server(port);
             
         }
+        if (!isServer) {
+            
+                Client client = new Client(addr, port);
+                client.join();
+                client.reciveTrick();
+            
+            
+        } else {
+            //Server server = new Server(port);
+            ServerTwo server = new ServerTwo(tempPlst);
+        }
+        } catch (Exception e) {
+            System.out.println(e);
+        } 
     }
 }
