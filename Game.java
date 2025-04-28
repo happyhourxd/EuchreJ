@@ -41,7 +41,7 @@ public class Game {
     }
 
     // Determine the order in which players are dealt cards
-    private void dealOrder(Server server) {
+    private void dealOrder(Server server) { //isDealer + player.id()
         for (Player player : playerArray) {
             if (player.getDealer()) {
                 dealer = player; // Set the current dealer
