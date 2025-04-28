@@ -43,7 +43,7 @@ public class Deck implements Serializable{
         deckCards.trimToSize();
         return topCard;
     }
-
+    
     public Card getTop() {
         return deckCards.get(0);
     }

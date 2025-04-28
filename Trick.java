@@ -37,17 +37,32 @@ public class Trick implements Serializable{
     }
 
     public Trick deal() {
+        int roundDeal = 0;
+        int startDealIndex = 0;
         this.phase = "deal";
         if (this.deck.getSize() < 24) {
             this.deck = new Deck();
             this.deck.shuffle();
         }
         deck.shuffle();
-        while(deck.getSize() > 6) {
-            players.get(0).giveCard(deck.drawCard());
-            players.get(1).giveCard(deck.drawCard());
-            players.get(2).giveCard(deck.drawCard());
-            players.get(2).giveCard(deck.drawCard());
+        while(deck.getSize() > 4) {
+            if (roundDeal==1){
+                startDealIndex=1;
+            }
+            for(int i=0; i<players.size(); i++){
+                if(i+startDealIndex%2==0){
+                    for(int j=0; j<3; j++){
+                        players.get(i).giveCard(deck.drawCard());
+                    }
+                    
+                }
+                else{
+                    for(int j=0; j<2; j++){
+                        players.get(i).giveCard(deck.drawCard());
+                    }
+                }                
+            }
+            roundDeal++;
         }
         return this;
     }

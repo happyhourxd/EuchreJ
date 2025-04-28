@@ -97,7 +97,6 @@ public class ServerTwo {
         
         if(trick.getTrump() == null) {
             selectTrump(false);
-            
         }
         if(trick.getTrump() == null) {
             newTrick();
@@ -115,13 +114,13 @@ public class ServerTwo {
         }
         if (i == 4) {
             sendTrick(trick.getDealer());
-            this.trick = reciveTrick(trick.getDealer());
+            this.trick = receiveTrick(trick.getDealer());
             return;
         }
         Player currentPlayer = players.get(findPos(trick.getDealer()) + i);
 
         sendTrick(currentPlayer);
-        this.trick = reciveTrick(currentPlayer);
+        this.trick = receiveTrick(currentPlayer);
         playHand(i+1);
     }
 
@@ -145,7 +144,7 @@ public class ServerTwo {
         }
     }
 
-    public Trick reciveTrick(Player p) throws IOException, ClassNotFoundException{
+    public Trick receiveTrick(Player p) throws IOException, ClassNotFoundException{
         this.trick = (Trick) in.get(findPos(p)).readObject();
         sendTrick();
         return this.trick;
