@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 public class Main {
     
@@ -10,6 +11,23 @@ public class Main {
     static String addr = "127.0.0.1";
 
     public static void main(String[] args) {
+
+
+
+
+        ArrayList<Player> tempPlst = new ArrayList<>();
+            tempPlst.add(new Player(1, "jane"));
+            tempPlst.add(new Player(2, "jon"));
+            tempPlst.add(new Player(3, "jack"));
+            tempPlst.add(new Player(4, "phil"));
+            Trick game = new Trick(tempPlst);
+            game.deal();
+            System.out.println(game.getPlayer(1).getCards());
+            while (!isServer) {
+                
+            }
+
+
         if (args.length > 0) {
             isServer = true;
         }
@@ -21,9 +39,7 @@ public class Main {
             }
         } else {
             Server server = new Server(port);
-            while (isServer) {
-                
-            }
+            
         }
     }
 }
