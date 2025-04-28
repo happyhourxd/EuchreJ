@@ -19,11 +19,16 @@ public class Player implements Serializable {
     public Player(int id, String name) { // player constructor
         this.id = id;
         this.name = name;
+        this.cards = new ArrayList<>();
     }
 
 
     public void setTeam(int team) { // Set the team
         this.team = team;//0 or 1 to correspond with game score array
+    }
+
+    public void giveCard(Card card) {
+        this.cards.add(card);
     }
 
     public void setCards(ArrayList<Card> cards) { // Used by the server to set the player's hand, happens each round
@@ -44,6 +49,10 @@ public class Player implements Serializable {
 
     public int getId() {
         return id;
+    }
+
+    public void clearHand() {
+        setCards(new ArrayList<>());
     }
 
     public String getName() {
