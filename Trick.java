@@ -1,17 +1,21 @@
 import java.util.ArrayList;
+import java.io.Serializable;
 
-public class Trick {
+public class Trick implements Serializable{
 
     public ArrayList<Player> players = new ArrayList<>();
+    private static final long serialVersionUID = 01; // the serialVersionUID, should be updated each time player is
     public Deck deck;
     public int[] score = {0,0};
     public Card trump = null;
     public Player dealer;
     public int turn = 0;
     public ArrayList<Card> table;
+    public String phase;
 
     public Trick(ArrayList<Player> players) {
         this.players = players;
+        this.dealer = players.get(0);
         this.deck = new Deck();
         this.table = new ArrayList<>();
 
@@ -20,11 +24,20 @@ public class Trick {
         }
     }
 
-    public Trick(ArrayList<Player> players, Card trump, int[] score) {
+    public Trick(ArrayList<Player> players, Card trump, int[] score, Player lastDelear) {
         
     }
 
+    public void setPhase(String phase) {
+        this.phase = phase;
+    }
+
+    public String getPhase() {
+        return this.phase;
+    }
+
     public Trick deal() {
+        this.phase = "deal";
         if (this.deck.getSize() < 24) {
             this.deck = new Deck();
             this.deck.shuffle();

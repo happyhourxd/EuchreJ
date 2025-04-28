@@ -1,7 +1,4 @@
-import java.io.BufferedOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
@@ -14,11 +11,12 @@ public class ServerTwo {
     ArrayList<Socket> playerSockets; //a list of the player sockets
     ArrayList<Player> players;
     Player tempPlayer;
-    private Socket s;
+    public Socket s;
     private ServerSocket ss;
-    private ObjectInputStream in;
-    private ObjectOutputStream out;
+    private ArrayList<ObjectInputStream> in;
+    private ArrayList<ObjectOutputStream> out;
     public Trick trick;
+    public Player dealer;
 
 
     public ServerTwo(int port) {
@@ -41,84 +39,134 @@ public class ServerTwo {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        try {
-            for(Socket p : playerSockets) {//loop to get players and add them to the list
-                out = new ObjectOutputStream(new BufferedOutputStream(p.getOutputStream()));
-                in = new ObjectInputStream(p.getInputStream());
-                Player tempPlayer = (Player) in.readObject(); //make a temp player from the user's connected
-                tempPlayer.setOutputStream(out);
-                tempPlayer.setInputStream(in);
-                players.add(tempPlayer);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException cn) {
-            cn.printStackTrace();
+        // try {
+            // for(Socket p : playerSockets) {//loop to get players and add them to the list
+            //     out = new ObjectOutputStream(new BufferedOutputStream(p.getOutputStream()));
+            //     in = new ObjectInputStream(p.getInputStream());
+            //     Player tempPlayer = (Player) in.readObject(); //make a temp player from the user's connected
+            //     tempPlayer.setOutputStream(out);
+            //     tempPlayer.setInputStream(in);
+            //     players.add(tempPlayer);
+            // }
+        // } catch (IOException e) {
+        //     e.printStackTrace();
+        // } catch (ClassNotFoundException cn) {
+        //     cn.printStackTrace();
+        // }
+        // //done init!
+        // newTrick();
+    }
+
+    public ServerTwo(ArrayList<Player> playerList) throws IOException, ClassNotFoundException { //ALSO FOR TESTING
+        this.playerSockets = new ArrayList<>();
+        this.out = new ArrayList<>();
+        this.in = new ArrayList<>();
+        ss = new ServerSocket(5000);
+        
+
+        System.out.print("Waiting for clients...");
+        
+        while(connections < 4) {
+            this.s = ss.accept();
+            playerSockets.add(s);
+
+            OutputStream outputStream = this.s.getOutputStream();
+            InputStream inputStream = this.s.getInputStream();
+            
+
+            this.out.add(new ObjectOutputStream(outputStream));
+            this.in.add(new ObjectInputStream(inputStream));
+
+            System.out.println("New Connection made!");
+            connections++;
         }
-        //done init!
+        System.out.println("all connections made!");
+        this.players = playerList;
         newTrick();
     }
 
-    public void newTrick() {
+    public void newTrick() throws IOException, ClassNotFoundException{
         this.trick = new Trick(players);
         trick.deal();
-        sendTrick("deal");
-        trick = reciveTrick();
+
+        System.out.println("Dealer id: " + trick.getDealer().getId());
 
         //done with dealing onto selecting trump
 
         selectTrump(true);
-        trick = reciveTrick();
+        
         if(trick.getTrump() == null) {
             selectTrump(false);
+            
         }
-        trick = reciveTrick();
         if(trick.getTrump() == null) {
             newTrick();
             return;
         }
 
         //done with trump onto playing hands
-
-        for (int i = 0; i < players.size(); i++) {
-            if (players.get(i).getId() == trick.getDealer().getId()) {
-                if(i == 3)
-                    sendTrick(0, "playHand");
-                else
-                    sendTrick(i, "playHand");
-            }
-        }
-
-        this.trick = reciveTrick();
-
+        this.trick.setPhase("PlayHand");
+        playHand(1);
     } 
 
-    public void selectTrump(Boolean normal) {
-        String phase;
+    public void playHand(int i) throws IOException, ClassNotFoundException {
+        if ((trick.getPhase().equals("selectTrump") || trick.getPhase().equals("selectTrumpAbnormal")) && (trick.getTrump() != null)) {
+            return;
+        }
+        if (i == 4) {
+            sendTrick(trick.getDealer());
+            this.trick = reciveTrick(trick.getDealer());
+            return;
+        }
+        Player currentPlayer = players.get(findPos(trick.getDealer()) + i);
+
+        sendTrick(currentPlayer);
+        this.trick = reciveTrick(currentPlayer);
+        playHand(i+1);
+    }
+
+    public void selectTrump(Boolean normal) throws IOException, ClassNotFoundException {
         if (normal)
-        phase = "selectTrump";
+        trick.setPhase("selectTrump");
         else
-        phase = "selectTrumpAdnormal";
-        for (int i = 0; i < players.size(); i++) {
-            if (players.get(i).getId() ==  trick.getDealer().getId()) {
-                if (i == 3) {
-                    sendTrick(0, phase);
-                } else {
-                    sendTrick(i+1, phase);
-                }
-            }
+        trick.setPhase("selectTrumpAbnormal");
+        playHand(1);
+    }
+
+    public void sendTrick(Player p) throws IOException {
+        out.get(findPos(p)).writeObject(this.trick);
+    }
+
+    public void sendTrick() throws IOException { //todo
+        Player p = new Player(0, "name");
+        for (ObjectOutputStream o : out) {
+            o.writeObject(p);
+            o.reset();
         }
     }
 
-    public void sendTrick(int id, String phase) {
-
-    }
-
-    public void sendTrick(String phase) { //todo
-
-    }
-
-    public Trick reciveTrick() { //todo
+    public Trick reciveTrick(Player p) throws IOException, ClassNotFoundException{
+        this.trick = (Trick) in.get(findPos(p)).readObject();
+        sendTrick();
         return this.trick;
+    }
+
+    public int findPos(Player player) {
+        for(int i = 0; i < players.size(); i++) {
+            if (player.getId() == players.get(i).getId())
+                return i;
+        }
+        return -1;
+    }
+
+    public Player findNextPlayer(Player player) {
+        if (findPos(player) == 3)
+            return players.get(0);
+        else
+            return players.get(findPos(player) + 1);
+    }
+
+    public Socket findSocket(Player player) {
+        return playerSockets.get(findPos(player));
     }
 }
