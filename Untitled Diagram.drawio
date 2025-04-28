@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64; rv:137.0) Gecko/20100101 Firefox/137.0" version="26.2.13">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64; rv:137.0) Gecko/20100101 Firefox/137.0" version="26.2.14">
   <diagram name="Page-1" id="3-hoNx-oFPBd3e3wgJj-">
-    <mxGraphModel dx="985" dy="520" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1325" dy="251" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -126,25 +126,49 @@
         <mxCell id="up3UMuSQXLqQoOLamiaC-46" value="should have functions that update depending on what is happening in the game." style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" parent="up3UMuSQXLqQoOLamiaC-41" vertex="1">
           <mxGeometry y="120" width="140" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="DxHCiOKc3kGTDNrOEROZ-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.524;entryY=-0.007;entryDx=0;entryDy=0;entryPerimeter=0;shape=flexArrow;" edge="1" parent="1" source="-2NJOU67YEYeew-TCaY0-1" target="up3UMuSQXLqQoOLamiaC-41">
+        <mxCell id="DxHCiOKc3kGTDNrOEROZ-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.524;entryY=-0.007;entryDx=0;entryDy=0;entryPerimeter=0;shape=flexArrow;" parent="1" source="-2NJOU67YEYeew-TCaY0-1" target="up3UMuSQXLqQoOLamiaC-41" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="DxHCiOKc3kGTDNrOEROZ-2" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.504;exitY=1.009;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;shape=flexArrow;" edge="1" parent="1" source="up3UMuSQXLqQoOLamiaC-46" target="up3UMuSQXLqQoOLamiaC-2">
+        <mxCell id="DxHCiOKc3kGTDNrOEROZ-2" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.504;exitY=1.009;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;shape=flexArrow;" parent="1" source="up3UMuSQXLqQoOLamiaC-46" target="up3UMuSQXLqQoOLamiaC-2" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="310" y="600" as="sourcePoint" />
             <mxPoint x="360" y="550" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="DxHCiOKc3kGTDNrOEROZ-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="up3UMuSQXLqQoOLamiaC-11" target="up3UMuSQXLqQoOLamiaC-4">
+        <mxCell id="DxHCiOKc3kGTDNrOEROZ-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="up3UMuSQXLqQoOLamiaC-11" target="up3UMuSQXLqQoOLamiaC-4" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="DxHCiOKc3kGTDNrOEROZ-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="up3UMuSQXLqQoOLamiaC-3" target="up3UMuSQXLqQoOLamiaC-10">
+        <mxCell id="DxHCiOKc3kGTDNrOEROZ-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="up3UMuSQXLqQoOLamiaC-3" target="up3UMuSQXLqQoOLamiaC-10" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="410" y="705" />
               <mxPoint x="410" y="465" />
             </Array>
           </mxGeometry>
+        </mxCell>
+        <mxCell id="iqxiywxiM9S1dI8F5_UA-1" value="Euchre order of events to track" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-130" y="170" width="140" height="340" as="geometry" />
+        </mxCell>
+        <mxCell id="iqxiywxiM9S1dI8F5_UA-2" value="cards are delt" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="iqxiywxiM9S1dI8F5_UA-1">
+          <mxGeometry y="30" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="iqxiywxiM9S1dI8F5_UA-3" value="A Potential trump is shown" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="iqxiywxiM9S1dI8F5_UA-1">
+          <mxGeometry y="60" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="iqxiywxiM9S1dI8F5_UA-4" value="Ether trump is selected or, a second trump is shown, then selected " style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="iqxiywxiM9S1dI8F5_UA-1">
+          <mxGeometry y="90" width="140" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="iqxiywxiM9S1dI8F5_UA-6" value="Dealer selects a card to discard and trump gets added to their hand" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="iqxiywxiM9S1dI8F5_UA-1">
+          <mxGeometry y="140" width="140" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="iqxiywxiM9S1dI8F5_UA-8" value="First player plays their card and so on..." style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="iqxiywxiM9S1dI8F5_UA-1">
+          <mxGeometry y="190" width="140" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="iqxiywxiM9S1dI8F5_UA-10" value="After all players play, played cards are cleared then that process repeats" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="iqxiywxiM9S1dI8F5_UA-1">
+          <mxGeometry y="240" width="140" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="iqxiywxiM9S1dI8F5_UA-11" value="score is added and this loops" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="iqxiywxiM9S1dI8F5_UA-1">
+          <mxGeometry y="310" width="140" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
