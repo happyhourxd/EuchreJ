@@ -10,7 +10,7 @@ public class Player implements Serializable {
     int id; // will be the id, most likely the exact time in utc of creation
     String name; // the player's name, a user input
     int score; // the current score of the team
-    int team; // the team they belong to, either 1 or 2
+    int team; // the team they belong to, either 0 or 1
     boolean dealer; // if player is dealer or not
     ArrayList<Card> cards; // the list of the cards in the player's hand
     transient ObjectOutputStream out; // the player's output stream 
@@ -19,6 +19,7 @@ public class Player implements Serializable {
     public Player(int id, String name) { // player constructor
         this.id = id;
         this.name = name;
+        this.dealer = false;
         this.cards = new ArrayList<>();
     }
 

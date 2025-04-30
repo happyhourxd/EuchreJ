@@ -7,8 +7,10 @@ public class Trick implements Serializable{
     private static final long serialVersionUID = 01; // the serialVersionUID, should be updated each time player is
     public Deck deck;
     public int[] score = {0,0};
+    public boolean normalTrump;
     public Card trump = null;
     public Player dealer;
+    public Player currentPlayer;
     public int turn = 0;
     public ArrayList<Card> table;
     public String phase;
@@ -26,6 +28,14 @@ public class Trick implements Serializable{
 
     public Trick(ArrayList<Player> players, Card trump, int[] score, Player lastDelear) {
         
+    }
+
+    public void setCurrentPlayer(Player player) {
+        this.currentPlayer = player;
+    }
+
+    public Player getCurrentPlayer() {
+        return this.currentPlayer;
     }
 
     public void setPhase(String phase) {
@@ -100,5 +110,9 @@ public class Trick implements Serializable{
 
     public Player getDealer() {
         return dealer;
+    }
+
+    public Card getTopCard() {
+        return deck.getTop();
     }
 }

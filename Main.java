@@ -1,4 +1,3 @@
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class Main {
@@ -13,9 +12,6 @@ public class Main {
 
     public static void main(String[] args) {
 
-
-
-
         ArrayList<Player> tempPlst = new ArrayList<>();
         tempPlst.add(new Player(1, "jane")); //default dealer
         tempPlst.add(new Player(2, "jon"));
@@ -25,7 +21,7 @@ public class Main {
         //ServerTwo server = new ServerTwo(tempPlst);
 
         try {
-        isServer = false;
+        isServer = true;
         if (args.length > 0) {
             
         }
@@ -34,11 +30,9 @@ public class Main {
                 Client client = new Client(addr, port);
                 client.join();
                 client.reciveTrick();
-            
-            
         } else {
             //Server server = new Server(port);
-            ServerTwo server = new ServerTwo(tempPlst);
+            ServerTwo server = new ServerTwo(5000 );
         }
         } catch (Exception e) {
             System.out.println(e);
