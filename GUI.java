@@ -5,14 +5,29 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class GUI extends Application {
+
+    GUIController controller;
+
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("game.fxml"));
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("game.fxml"));
+        Parent root = loader.load();
         Scene scene = new Scene(root);
+        this.controller = loader.<GUIController>getController();
         stage.setTitle("EuchreJ");
         stage.setScene(scene);
         stage.show();
+    
+        Thread connection = new Thread() {
+            public void run() {
+                controller.start();
+            }
+        };
+        connection.start();
     }
+
+    
 
     public static void main(String[] args) {
         launch(args);
