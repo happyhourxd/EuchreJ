@@ -16,31 +16,24 @@ public class GUIController {
 
     Trick trick;
     public Client client;
-    boolean trash = false;
 
     Image assignImage(Card card) {
         return new Image("/images/" + card.number + card.suit + ".png");
     }
 
     public void initButtons() {
-        ArrayList<Button> cards = new ArrayList<>();
-        cards.add(b0);
-        cards.add(b1);
-        cards.add(b2);
-        cards.add(b3);
-        cards.add(b4);
+        System.out.println("buttons initialized!");
 
         b5.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                trick.normalTrump = true;
-                client.setTrick(trick);
+                trick.trump();
                 b5.setDisable(true);
                 try {
                     client.sendTrick();
-                    trick = client.reciveTrick();
+                    
                 } catch (Exception error) {
-                    System.out.println(error);
+                    System.out.println("ASSSHASD");
                 }
             }
         });
@@ -57,15 +50,78 @@ public class GUIController {
                 }
             }
         });
+    }
 
-        b0.setOnAction(new EventHandler<ActionEvent>() { 
-            @Override
-            public void handle(ActionEvent e) {
+    public void dealerCards(ArrayList<Button> carButtons) {
+        for(int i = 0; i < carButtons.size(); i++) {
+            Button b = carButtons.get(i);
+            final int index = i;
+            b.setOnAction(new EventHandler<ActionEvent>() { 
+                @Override
+                public void handle(ActionEvent e) {
+                    System.out.println(trick.dealer.cards);
+                    trick.dealerTrade(trick.dealer.cards.get(index));
+                    client.setTrick(trick);
+                    try {
+                        client.sendTrick();
+                        trick.setCurrentPlayer(trick.dealer);
+                        refreshHand();
+                    } catch (Exception error) {
+                        System.out.println(error);
+                    }
+                }
+            });
+        }
+    }
 
-            }
-        });
+    public void regularCards(ArrayList<Button> carButtons) {
+        for (int i = 0; i < carButtons.size(); i++) {
+            Button b = carButtons.get(i);
+            int index = i;
+            b.setOnAction(new EventHandler<ActionEvent> () {
+                @Override
+                public void handle(ActionEvent e) {
+                    if (ifImPlayer()) {
+                        trick.play(trick.getCurrentPlayer().cards.get(index));
+                        p0play.setImage(assignImage(trick.getCurrentPlayer().cards.get(index)));
+                        b.setVisible(true);
+                        client.setTrick(trick);
+                        try {
+                            client.sendTrick();
+                        } catch (Exception error) {
+                            System.out.println(error);
+                        }
+                    }
+                }
+            });
+        }
+    }
 
-        
+    public void updateTable() {
+        try {
+            p1play.setImage(assignImage(trick.table.get(0)));
+            p2play.setImage(assignImage(trick.table.get(1)));
+            p3play.setImage(assignImage(trick.table.get(2)));
+            p0play.setImage(assignImage(trick.table.get(3)));
+        } catch (Exception error) {
+
+        }
+    }
+
+    public void refreshHand() {
+        p0c0.setImage(assignImage(trick.currentPlayer.cards.get(0)));
+        p0c1.setImage(assignImage(trick.currentPlayer.cards.get(1)));
+        p0c2.setImage(assignImage(trick.currentPlayer.cards.get(2)));
+        p0c3.setImage(assignImage(trick.currentPlayer.cards.get(3)));
+        p0c4.setImage(assignImage(trick.currentPlayer.cards.get(4)));
+    }
+
+    public void setTrump(String text) { //CANT CHANGE TEXT NEED TO USE IMAGES im thinking hiding htem?
+        trump.setVisible(false);
+    }
+
+    public void updateTrump() {
+        p0play.setImage(assignImage(trick.getTrump()));
     }
 
 
@@ -77,6 +133,12 @@ public class GUIController {
     }
 
     public void start() {
+        ArrayList<Button> carButtons = new ArrayList<>();
+        carButtons.add(b0);
+        carButtons.add(b1);
+        carButtons.add(b2);
+        carButtons.add(b3);
+        carButtons.add(b4);
         try {
             this.client = new Client("localhost", 5000);
             client.join();
@@ -87,29 +149,43 @@ public class GUIController {
         }
         initButtons();
         try {
-            gamePlay();
+            gamePlay(carButtons);
         } catch (Exception error) {
             System.out.println(error);
         }
     }
 
-    public void gamePlay() throws IOException, ClassNotFoundException {
+    public void gamePlay(ArrayList<Button> cardButtons) throws IOException, ClassNotFoundException {
+        this.trick = client.reciveTrick(); // trick to update face cards
+        refreshHand();
+        client.sendTrick();
+        
         this.trick = client.reciveTrick();
         if(this.trick.getPhase().equals("selectTrump")) {
-            p0play.setImage(assignImage(this.trick.getTopCard()));
-        }
-        if (ifImPlayer() && (this.trick.getTrump() == null)) {
             b5.setDisable(false);
+            p0play.setImage(assignImage(this.trick.getTopCard()));
+            trick = client.reciveTrick(); //update trump 
+        } else { //trick is recived from up portion
+            System.out.println(trump.getText());
+            setTrump(trick.getTrump().suit);
         }
-        
-        //if dealer select cards
-        if (ifImDealer()) {
-            trash = true;
+
+        System.out.println("Im about to recive the update trump trick");
+
+       this.trick = client.reciveTrick();
+       updateTrump();
+        if (this.trick.dealer.getId() == client.me.getId()) {
+            System.out.println(trick.currentPlayer.getCards());
+            dealerCards(cardButtons);
         }
+        client.sendTrick();
 
-        this.trick = client.reciveTrick();
-
-
+        int turns = 0;
+        while (turns < 5) {
+            if(ifImPlayer()) {
+                turns++;
+            }
+        }
     }
 
     public boolean ifImPlayer() {
@@ -217,7 +293,7 @@ public class GUIController {
     private Label team1score;
 
     @FXML
-    private Label trump;
+    public Label trump;
 
     @FXML
     void c0pressed(MouseEvent event) {
