@@ -3,6 +3,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import javafx.beans.binding.ObjectExpression;
+
 public class ServerTwo {
 
     int port;
@@ -84,75 +86,110 @@ public class ServerTwo {
 
     public void newTrick() throws IOException, ClassNotFoundException{
         this.trick = new Trick(players);
-        trick.deal();
+        this.trick.setDealer(this.trick.players.get(0).id);
+        this.trick = trick.deal();
 
-        System.out.println("Dealer id: " + trick.getDealer().getId());
+        System.out.println("Dealer id: " + trick.players.get(0).cards);
+
+        for (Player p : this.trick.players) {
+            System.out.println(p.cards);
+            trick.setCurrentPlayer(p);
+            sendTrick(p);
+            reciveTrick(p);
+        }
+
+        System.out.println("Dealer id: " + trick.getPlayer(0).cards);
 
         //done with dealing onto selecting trump
-
-        selectTrump(true);
-        
-        if(trick.getTrump() == null) {
-            selectTrump(false);
-        }
-        if(trick.getTrump() == null) {
+        this.trick.setPhase("selectTrump");
+        selectTrump(1);
+        this.trick.setPhase("");
+        if(trick.doneWifTrump == false) {
             newTrick();
             return;
         }
-        sendTrick(trick.getDealer());
-        reciveTrick(trick.getDealer());
-        trick.setPhase("showTrump");
-        sendTrick(); //show selected trump suit
 
-        //done with trump onto playing hands
-        this.trick.setPhase("PlayHand");
+        System.out.println("Dealer id: " + trick.players.get(0).cards);
+
+        System.out.println("Done with trump!");
+
+        //display trump to everyone
+        this.trick.setPhase("displayTrump");
+        for (Player p : players) { //send trick to all players to update trump
+            sendTrick(p);
+        }
+
+
+        this.trick.setPhase("dealersChoice");
+        this.trick.setCurrentPlayer(trick.players.get(0));
+        System.out.println(this.trick.getCurrentPlayer().getCards());
+        sendTrick(trick.getDealer()); //send the trick to the dealer to see what card they want to echange
+        reciveTrick(trick.getDealer());
+        this.trick.setPhase("");
+
+        for(Player p : players) {
+            if (p.dealer != true) {
+                reciveTrick(p);
+            }
+        }
+
         playHand(1);
+
     } 
 
     public void playHand(int i) throws IOException, ClassNotFoundException {
-        System.out.println(trick.getTrump());
-        if ((trick.getPhase().equals("selectTrump") || trick.getPhase().equals("selectTrumpAbnormal")) && (trick.getTrump() != null)) { //return clause for no trump
-            return;
-        }
-
         if (i == 4) { //base case
             sendTrick(trick.getDealer()); //dealer always goes last
             this.trick = reciveTrick(trick.getDealer()); //recive the trick from the dealer
+            trick.table.clear();
             return;
         }
 
         tempPlayer = players.get(findPos(trick.getDealer()) + i);
         trick.setCurrentPlayer(tempPlayer);
+        
         System.out.println("sending trick to " + tempPlayer);
         sendTrick(tempPlayer);
         this.trick = reciveTrick(tempPlayer);
+        sendTrickE(tempPlayer);
         playHand(i+1);
     }
 
-    public void selectTrump(Boolean normal) throws IOException, ClassNotFoundException {
-        if (normal)
-        trick.setPhase("selectTrump");
-        else
-        trick.setPhase("selectTrumpAbnormal");
-        System.out.println("Selecting trump...");
-        playHand(1);
+    public void selectTrump(int i) throws IOException, ClassNotFoundException { //Done
+        if (i == 4) { //checked for regualr trump (base-ish case)
+            sendTrick(trick.getDealer());
+            this.trick = reciveTrick(trick.getDealer());
+            return;
+        } else if (i == 8) { //base base case
+
+        } else if (trick.doneWifTrump == true)
+            return;
+        else {
+        tempPlayer = players.get(findPos(trick.getDealer()) + i);
+        trick.setCurrentPlayer(tempPlayer);
+        sendTrick(tempPlayer);
+        this.trick = reciveTrick(tempPlayer);
+        selectTrump(i + 1);
+        }
     }
 
     public void sendTrick(Player p) throws IOException { //sends trick to specific player
-        out.get(findPos(p)).writeObject(this.trick);
+        out.get(findPos(p)).writeObject(trick);
         //out.get(findPos(p)).flush();
     }
 
-    public void sendTrick() throws IOException { //sends trick to all players
+    public void sendTrickE(Player p) throws IOException { //sends trick to all players
+        int i = 0;
         for (ObjectOutputStream o : out) {
-            o.writeObject(this.trick);
+            if (findPos(p) != i) {
+                o.writeObject(this.trick);
             o.flush();
+            }
         }
     }
 
     public Trick reciveTrick(Player p) throws IOException, ClassNotFoundException{ //recives then updates trick
         this.trick = (Trick) in.get(findPos(p)).readObject();
-        sendTrick();
         return this.trick;
     }
 
