@@ -12,7 +12,7 @@ public class Player implements Serializable {
     int score; // the current score of the team
     int team; // the team they belong to, either 0 or 1
     boolean dealer; // if player is dealer or not
-    ArrayList<Card> cards; // the list of the cards in the player's hand
+    public ArrayList<Card> cards; // the list of the cards in the player's hand
     transient ObjectOutputStream out; // the player's output stream 
     transient ObjectInputStream in;
 
@@ -23,13 +23,21 @@ public class Player implements Serializable {
         this.cards = new ArrayList<>();
     }
 
+    public Player(Player player) {
+        this.id = player.id;
+        this.name = player.name;
+        this.dealer = player.dealer;
+        this.cards = new ArrayList<>(player.cards);
+        this.team = player.team;
+    }
+
 
     public void setTeam(int team) { // Set the team
         this.team = team;//0 or 1 to correspond with game score array
     }
 
     public void giveCard(Card card) {
-        this.cards.add(card);
+        this.cards.add(new Card(card));
     }
 
     public void setCards(ArrayList<Card> cards) { // Used by the server to set the player's hand, happens each round
