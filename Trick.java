@@ -8,6 +8,7 @@ public class Trick implements Serializable{
     public Deck deck;
     public int[] score = {0,0};
     public boolean normalTrump;
+    public boolean doneWifTrump = false;
     public Card trump = null;
     public Player dealer;
     public Player currentPlayer;
@@ -16,8 +17,10 @@ public class Trick implements Serializable{
     public String phase;
 
     public Trick(ArrayList<Player> players) {
-        this.players = players;
-        this.dealer = players.get(0);
+        this.players = new ArrayList<>();
+        for (Player p : players) {
+            this.players.add(new Player(p));
+        }
         this.deck = new Deck();
         this.table = new ArrayList<>();
 
@@ -31,7 +34,7 @@ public class Trick implements Serializable{
     }
 
     public void setCurrentPlayer(Player player) {
-        this.currentPlayer = player;
+        this.currentPlayer = new Player(player);
     }
 
     public Player getCurrentPlayer() {
@@ -47,17 +50,15 @@ public class Trick implements Serializable{
     }
 
     public Trick deal() {
-        this.phase = "deal";
         if (this.deck.getSize() < 24) {
             this.deck = new Deck();
-            this.deck.shuffle();
         }
-        deck.shuffle();
+        this.deck.shuffle();
         while(deck.getSize() > 6) {
-            players.get(0).giveCard(deck.drawCard());
-            players.get(1).giveCard(deck.drawCard());
-            players.get(2).giveCard(deck.drawCard());
-            players.get(2).giveCard(deck.drawCard());
+            players.get(0).giveCard(this.deck.drawCard());
+            players.get(1).giveCard(this.deck.drawCard());
+            players.get(2).giveCard(this.deck.drawCard());
+            players.get(3).giveCard(this.deck.drawCard());
         }
         return this;
     }
@@ -70,15 +71,21 @@ public class Trick implements Serializable{
         this.trump = trump;
     }
 
-    public void normalTrump(Card card) {
-        this.trump = deck.getTop();
+    public void trump() {
+        this.doneWifTrump = true;
+        this.trump = new Card(deck.getTop());
+    }
+
+    public void dealerTrade(Card card) {
         for (Player p : players) {
             if (p.id == dealer.id) {
                 p.play(card);
-                p.giveCard(this.trump);
+                p.giveCard(new Card(this.trump));
             }
         }
     }
+
+    
 
     public Trick play(Card card) {
         for (Player p : players) {
@@ -101,11 +108,8 @@ public class Trick implements Serializable{
         }
     }
 
-    public Player getPlayer(int id) {
-        for (Player p : players) 
-            if (p.id == id)
-                return p;
-        return null;
+    public Player getPlayer(int index) {
+        return players.get(index);
     }
 
     public Player getDealer() {
