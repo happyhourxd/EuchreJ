@@ -126,13 +126,23 @@
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label text="Your Score: " />
-                  <Label fx:id="team0score" text="0" />
+                  <Label fx:id="t0s0" onMousePressed="#score1" text="0" />
+                  <Label fx:id="t0s2" onMousePressed="#score1" text="2" visible="false" />
+                  <Label fx:id="t0s4" onMousePressed="#score1" text="4" visible="false" />
+                  <Label fx:id="t0s6" onMousePressed="#score1" text="6" visible="false" />
+                  <Label fx:id="t0s8" onMousePressed="#score1" text="8" visible="false" />
+                  <Label fx:id="t0s10" onMousePressed="#score1" text="10" visible="false" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label text="Their Score: " />
-                  <Label fx:id="team1score" text="0" />
+                  <Label fx:id="t1s0" onMousePressed="#score2" text="0" />
+                  <Label fx:id="t1s2" onMousePressed="#score1" text="2" visible="false" />
+                  <Label fx:id="t1s4" onMousePressed="#score1" text="4" visible="false" />
+                  <Label fx:id="t1s6" onMousePressed="#score1" text="6" visible="false" />
+                  <Label fx:id="t1s8" onMousePressed="#score1" text="8" visible="false" />
+                  <Label fx:id="t1s10" onMousePressed="#score1" text="10" visible="false" />
                </children>
             </HBox>
          </children>
@@ -230,11 +240,19 @@
             </ImageView>
          </children>
       </HBox>
-      <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="2">
+      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2">
          <children>
-            <Button fx:id="b5" mnemonicParsing="false" text="Yes trump" />
-            <Button fx:id="b6" mnemonicParsing="false" text="nuh uh" />
+            <Button fx:id="b5" mnemonicParsing="false">
+               <graphic>
+                  <ImageView fx:id="potTrump" fitHeight="92.0" fitWidth="85.0" onMouseClicked="#potTrumpPressed" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/back.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="b6" mnemonicParsing="false" onMousePressed="#nuhUhPressed" text="nuh uh" />
          </children>
-      </HBox>
+      </VBox>
    </children>
 </GridPane>
