@@ -1,5 +1,3 @@
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -13,8 +11,6 @@ public class Player implements Serializable {
     int team; // the team they belong to, either 0 or 1
     boolean dealer; // if player is dealer or not
     public ArrayList<Card> cards; // the list of the cards in the player's hand
-    transient ObjectOutputStream out; // the player's output stream 
-    transient ObjectInputStream in;
 
     public Player(int id, String name) { // player constructor
         this.id = id;
@@ -49,7 +45,7 @@ public class Player implements Serializable {
         for (int i = 0; i < cards.size(); i++) {
             Card currCard = cards.get(i);
             if (currCard.suit.equals(playedCard.suit) && currCard.number == playedCard.number) {
-                cards.remove(i);
+                cards.set(i, new Card(0,"null"));
                 return currCard;
             }
         }
@@ -84,19 +80,6 @@ public class Player implements Serializable {
         return dealer;
     }
     public void setDealer(boolean dealer){
-        this.dealer=dealer;
-    }
-    public void setOutputStream(ObjectOutputStream out) { // Set the player's output stream
-        this.out = out;
-    }
-
-    public ObjectOutputStream getOutputStream() { // Get the player's output stream
-        return out;
-    }
-    public void setInputStream(ObjectInputStream in){
-        this.in = in;
-    }
-    public ObjectInputStream getInputStream() { // Get the player's output stream
-        return in;
+        this.dealer = dealer;
     }
 }

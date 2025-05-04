@@ -1,118 +1,220 @@
-import java.util.ArrayList;
-import java.net.*;
 import java.io.*;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
 
 public class Server {
-    
+
     int port;
     int connections = 0;
     ArrayList<Socket> playerSockets; //a list of the player sockets
-    ArrayList<ObjectOutputStream> outputStreams; //a list of output streams for each client
     ArrayList<Player> players;
-    private Game game; //a list of the players
     Player tempPlayer;
-    private Socket s;
+    public Socket s;
     private ServerSocket ss;
-    private ObjectInputStream in;
-    private ObjectOutputStream out;
+    private ArrayList<ObjectInputStream> in;
+    private ArrayList<ObjectOutputStream> out;
+    public Trick trick;
+    public int wins[] = {0,0};
+    public int score[] = {0,0};
+    public Player dealer;
+    public boolean weirdTrump = false;
 
-    public Server(int port) {
-        this.port = port;
-        playerSockets = new ArrayList<>();
+    public Server(int port) throws IOException, ClassNotFoundException {
+        this.playerSockets = new ArrayList<>();
+        this.out = new ArrayList<>();
+        this.in = new ArrayList<>();
+        this.players = new ArrayList<>();
+        ss = new ServerSocket(port);
 
-        try {
-            ss = new ServerSocket(this.port); //make a new server socket
+        System.out.println("Waiting for players...");
 
-            System.out.println("Starting server... \n Awaiting 4 clients");
+        while(connections < 4) {
+            this.s = ss.accept();
+            playerSockets.add(s);
 
-            while(connections < 4) { // wait for 4 players
-                playerSockets.add(ss.accept());
-                connections++;
-                System.out.println("A Connection was made");
-            } // all 4 players have connected
-            System.out.println("All 4 clients joined!");
-        } catch (SocketException se) {
-            System.exit(0);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            for(Socket p : playerSockets) {//loop to get players and add them to the list
-                out = new ObjectOutputStream(new BufferedOutputStream(p.getOutputStream()));
-                outputStreams.add(out);
-                in = new ObjectInputStream(p.getInputStream());
-                Player tempPlayer = (Player) in.readObject(); //make a temp player from the user's connected
-                tempPlayer.setOutputStream(out);
-                tempPlayer.setInputStream(in);
-                players.add(tempPlayer);
+            OutputStream outputSteam = this.s.getOutputStream();
+            InputStream inputStream = this.s.getInputStream();
+
+            this.out.add(new ObjectOutputStream(outputSteam));
+            this.in.add(new ObjectInputStream(inputStream));
+
+            tempPlayer = (Player) this.in.get(connections).readObject();
+
+            tempPlayer.setTeam(connections%2);
+            if(connections == 0) {
+                tempPlayer.setDealer(true);
             }
-            //idk if right place but ye!
-            game = new Game(players, 10);
-            gameLoop();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException cn) {
-            cn.printStackTrace();
+
+            this.out.get(connections).writeObject(tempPlayer);
+            this.out.get(connections).flush();
+
+            this.players.add(tempPlayer);
+
+            System.out.println("New connection made!");
+            connections++;
         }
+
+        System.out.println("All connections made!");
+        Player dealer = newTrick(this.players.get(3));
+        while (wins[0] < 10 || wins[1] < 10) {
+            newTrick(dealer);
+        }
+    }
+
+    public Player newTrick(Player dealer) throws IOException, ClassNotFoundException{
+        this.trick = new Trick(players);
+        for (int i = 0; i < players.size(); i++) {
+            if (this.trick.players.get(i).id == dealer.id) {
+                this.trick.setDealer(this.trick.getPlayer((i+1)%4).id);
+            }
+        }
+        this.trick = trick.deal();
+
+        System.out.println("Dealer id: " + trick.dealer.cards);
+
+        for (Player p : this.trick.players) { //show cards
+            trick.setCurrentPlayer(p);
+            sendTrick(p);
+            reciveTrick(p);
+        }
+
+
+        //done with dealing onto selecting trump
+        this.trick.setPhase("selectTrump");
+
+        selectTrump(1);
+        this.trick.currentPlayer = null;
+        //display trump to everyone
+        this.trick.setPhase("displayTrump");
+        for (Player p : players) { //send trick to all players to update trump
+            sendTrick(p);
+        }
+
+        if (!weirdTrump) {
+            this.trick.setPhase("dealersChoice");
+            this.trick.setCurrentPlayer(this.trick.getDealer());
             
+            reciveTrick(trick.getDealer());
+            this.trick.setPhase("");
+            
+        }
+
+        this.trick.currentPlayer = null;
+
+        for(Player p : players) {    //11
+            sendTrick(p);
+        }
+
+        
+
+        for (int j = 0; j < 5; j++) {
+            playHand(1);
+            this.trick.clearTable();
+        } 
+        return this.trick.dealer;
+    }        
+
+    public void playHand(int i) throws IOException, ClassNotFoundException {
+        if (i == 4) { //base case
+            trick.setCurrentPlayer(this.trick.dealer);
+            sendTrick(trick.getDealer()); //dealer always goes last
+            this.trick = reciveTrick(trick.getDealer()); //recive the trick from the dealer
+            sendTrick(trick.getDealer());
+            for (Player p : players ) {
+                if (p.getId() != trick.getDealer().id) {
+                    sendTrick(p);
+                    reciveTrick(p);
+                }
+            }
+            return;
+        }
+
+        tempPlayer = this.trick.players.get((findPos(trick.getDealer()) + i)%4);
+        trick.turn = ((findPos(trick.getDealer()) +i)%4);
+        this.trick.setCurrentPlayerByID(tempPlayer.id);
+        sendTrick(this.trick.currentPlayer);
+        this.trick = reciveTrick(tempPlayer);
+        sendTrick(tempPlayer);
+        
+
+        if (i == 1) {
+            for (Card c : this.trick.table)
+                if (c.suit != null)
+                this.trick.leadingSuit = c.suit;
+        }
+        for (Player p : players) {
+            if (p.getId() != tempPlayer.id) {
+                sendTrick(p);
+                reciveTrick(p);
+            }
+        }
+        this.trick.calcWins();
+        this.trick.calcScore();
+        score = this.trick.score;
+        
+        playHand(i+1);
     }
-    private void gameLoop(){
-        game.startGame(this);
+
+    public void selectTrump(int i) throws IOException, ClassNotFoundException { //Done
+        this.weirdTrump = this.trick.weridTrump;
+        if (trick.doneWifTrump == true) {
+            return;
+        } else if (i == 4) { //checked for regualr trump (base-ish case)
+            sendTrick(trick.getDealer());
+            this.trick = reciveTrick(trick.getDealer());
+            this.trick.setPhase("weridTrump");
+            if (this.trick.trump != null) {
+                return;
+            } else {
+                selectTrump(i+1);
+            }
+        } else {
+        tempPlayer = players.get((findPos(trick.getDealer()) + i)%4);
+        trick.setCurrentPlayer(tempPlayer);
+        sendTrick(tempPlayer);
+        this.trick = reciveTrick(tempPlayer);
+        selectTrump(i + 1);
+        }
     }
-    public void sendUpdateToClients(Object update) {
-        for (ObjectOutputStream out : outputStreams) {
-            try {
-                out.writeObject(update); // Write the update to the client's output stream
-                out.flush(); // Ensure the data is sent immediately
-            } catch (IOException e) {
-                System.err.println("Error sending update to client: " + e.getMessage());
+
+    public void sendTrick(Player p) throws IOException { //sends trick to specific player
+        out.get(findPos(p)).reset();
+        out.get(findPos(p)).writeObject(this.trick);
+        out.get(findPos(p)).flush();
+    }
+
+    public void sendTrickE(Player p) throws IOException { //sends trick to all players
+        int i = 0;
+        for (ObjectOutputStream o : out) {
+            if (findPos(p) != i) {
+                o.writeObject(this.trick);
+            o.flush();
             }
         }
     }
-    public String promptPlayerForInput(Player player, String promptMessage) {
-        try {
-            // Send the prompt message to the player
-            ObjectOutputStream out = player.getOutputStream();
-            out.writeObject(promptMessage);
-            out.flush();
-    
-            // Wait for the player's response
-            ObjectInputStream in = new ObjectInputStream(player.getInputStream());
-            String response = (String) in.readObject(); // Read the player's response
-            return response; // Return the player's response
-        } catch (IOException | ClassNotFoundException e) {
-            System.err.println("Error prompting player for input: " + e.getMessage());
-            return null; // Return null if an error occurs
-        }
-    }
-    public void sendPlayerUpdate(Player player, String message) {
-        try {
-            ObjectOutputStream out = player.getOutputStream();
-            out.writeObject(message);
-        }
-        catch(IOException e){
-            System.err.println("Error sending message:"+e.getMessage());
-        }
-    }
-    public ArrayList<Player> getPlayers() {
-        return players;
-    }
-    public void exit() {
-        for(Socket p : playerSockets) {
-            try {
-            p.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+
+    public Trick reciveTrick(Player p) throws IOException, ClassNotFoundException{ //recives then updates trick
+        this.trick = (Trick) in.get(findPos(p)).readObject();
+        return this.trick;
     }
 
-    // public void applyMethod(player player) {
-    //     for (player i : players) {
-    //         if (i.id == player.id) {
+    public int findPos(Player player) { //find the position of the player in players array
+        for(int i = 0; i < players.size(); i++) {
+            if (player.getId() == players.get(i).getId())
+                return i;
+        }
+        return -1;
+    }
 
-    //         }
-    //     }
-    // }
+    public Player findNextPlayer(Player player) { //returns the next player after inputted player in player array
+        if (findPos(player) == 3)
+            return players.get(0);
+        else
+            return players.get(findPos(player) + 1);
+    }
 
+    public Socket findSocket(Player player) { //finds the socket of inputed player
+        return playerSockets.get(findPos(player));
+    }
 }

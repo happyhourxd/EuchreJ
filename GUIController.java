@@ -1,7 +1,5 @@
-import java.io.IOError;
 import java.io.IOException;
-import java.util.ArrayList;
-
+import java.util.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -9,13 +7,15 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
 public class GUIController {
 
     Trick trick;
     public Client client;
+    public int wins[] = {0,0};
+    Boolean weirdTrump = false;
+    ArrayList<Button> cardButtons = new ArrayList<>();
 
     Image assignImage(Card card) {
         return new Image("/images/" + card.number + card.suit + ".png");
@@ -23,6 +23,8 @@ public class GUIController {
 
     public void initButtons() {
         System.out.println("buttons initialized!");
+        b6.setDisable(true);
+        b5.setDisable(true);
 
         b5.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -33,7 +35,7 @@ public class GUIController {
                     client.sendTrick();
                     
                 } catch (Exception error) {
-                    System.out.println("ASSSHASD");
+                    
                 }
             }
         });
@@ -41,10 +43,11 @@ public class GUIController {
         b6.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
+                b5.setDisable(true);
+                b6.setVisible(false);
+                disableCards();
                 try {
                     client.sendTrick();
-                    trick = client.reciveTrick();
-                    b6.setDisable(true);
                 } catch (Exception error) {
                     System.out.println(error);
                 }
@@ -53,13 +56,14 @@ public class GUIController {
     }
 
     public void dealerCards(ArrayList<Button> carButtons) {
+        enableCards(carButtons, true);
         for(int i = 0; i < carButtons.size(); i++) {
             Button b = carButtons.get(i);
             final int index = i;
             b.setOnAction(new EventHandler<ActionEvent>() { 
                 @Override
                 public void handle(ActionEvent e) {
-                    System.out.println(trick.dealer.cards);
+                    
                     trick.dealerTrade(trick.dealer.cards.get(index));
                     client.setTrick(trick);
                     try {
@@ -74,23 +78,49 @@ public class GUIController {
         }
     }
 
-    public void regularCards(ArrayList<Button> carButtons) {
-        for (int i = 0; i < carButtons.size(); i++) {
-            Button b = carButtons.get(i);
+    public void regularCards(ArrayList<Button> cardButtons) {
+        for (int i = 0; i < cardButtons.size(); i++) {
+            Button b = cardButtons.get(i);
             int index = i;
             b.setOnAction(new EventHandler<ActionEvent> () {
                 @Override
                 public void handle(ActionEvent e) {
-                    if (ifImPlayer()) {
-                        trick.play(trick.getCurrentPlayer().cards.get(index));
-                        p0play.setImage(assignImage(trick.getCurrentPlayer().cards.get(index)));
-                        b.setVisible(true);
-                        client.setTrick(trick);
-                        try {
-                            client.sendTrick();
-                        } catch (Exception error) {
-                            System.out.println(error);
-                        }
+                    p0play.setImage(assignImage(trick.getCurrentPlayer().cards.get(index)));
+                    trick.play(trick.getCurrentPlayer().cards.get(index));
+                    b.setVisible(false);
+                    client.setTrick(trick);
+                    try {
+                       
+                        client.sendTrick();
+                        
+                    } catch (Exception error) {
+                        System.out.println(error);
+                    }
+                }
+            });
+        }
+    }
+
+    public void weirdTrump(ArrayList<Button> cardButtons) {
+        weirdTrump = true;
+        this.trick.weridTrump = true;
+        enableCards(cardButtons, true);
+        b6.setVisible(true);
+        b6.setDisable(false);
+        for (int i = 0; i < cardButtons.size(); i++) {
+            Button b = cardButtons.get(i);
+            int index = i;
+            b.setOnAction(new EventHandler<ActionEvent> () {
+                @Override
+                public void handle(ActionEvent e) {
+                    disableCards();
+                    trick.setTrump(trick.currentPlayer.cards.get(index));
+                    trick.doneWifTrump = true;
+                    client.setTrick(trick);
+                    try {
+                        client.sendTrick();
+                    } catch (Exception error) {
+                        System.out.println(error);
                     }
                 }
             });
@@ -98,14 +128,125 @@ public class GUIController {
     }
 
     public void updateTable() {
+        int pos = 0;
+        for (int i = 0; i < trick.players.size(); i++) {
+            if (trick.players.get(i).id == client.me.id) {
+                pos = i;
+            }
+        }
         try {
-            p1play.setImage(assignImage(trick.table.get(0)));
-            p2play.setImage(assignImage(trick.table.get(1)));
-            p3play.setImage(assignImage(trick.table.get(2)));
-            p0play.setImage(assignImage(trick.table.get(3)));
+            p1play.setImage(assignImage(trick.table.get((pos+1)%4)));
+        } catch (Exception error) {
+            System.out.println("update table " + error);
+        }try {
+            p2play.setImage(assignImage(trick.table.get((pos+2)%4)));
+        } catch (Exception error) {
+
+        }try {
+            p3play.setImage(assignImage(trick.table.get((pos+3)%4)));
+        } catch (Exception error) {
+
+        }try {
+            p0play.setImage(assignImage(trick.table.get(pos)));
         } catch (Exception error) {
 
         }
+    }
+
+    public void clearTable(ArrayList<Button> cardButtons) {
+        p0play.setImage(new Image("/images/back.png"));
+        p1play.setImage(new Image("/images/back.png"));
+        p2play.setImage(new Image("/images/back.png"));
+        p3play.setImage(new Image("/images/back.png"));
+    }
+
+    public void disableCards(ArrayList<Button> cardButtons) {
+        for (int i = 0; i < this.cardButtons.size(); i++) {
+            Button b = this.cardButtons.get(i);
+            b.setDisable(true);
+        }
+    }
+
+    public void disableCards() {
+        for (int i = 0; i < this.cardButtons.size(); i++) {
+            Button b = this.cardButtons.get(i);
+            b.setDisable(true);
+        }
+    }
+
+
+    public void enableCards(ArrayList<Button> cardButtons, boolean always) {
+        int amt = 0;
+        if (always) { 
+            for (int i = 0; i < cardButtons.size(); i++) {
+                Button b = cardButtons.get(i);
+                b.setDisable(false);
+            }
+        } else {
+            for (int i = 0; i < cardButtons.size(); i++) {
+                Button b = cardButtons.get(i);
+                if (canPlay(i)) {
+                    b.setDisable(false);
+                    amt++;
+                }
+            }
+            if (amt == this.trick.currentPlayer.cards.size()) {
+                for (int i = 0; i< cardButtons.size(); i++) {
+                    Button b = cardButtons.get(i);
+                    b.setDisable(false);
+                }
+            }
+        }
+        
+    }
+
+    public boolean isEmpty() {
+        int amt = 0;
+        for (Card c : this.trick.table) {
+            if (c.suit == null)
+                amt++;
+        }
+        if (amt == 4)
+            return true;
+        return false;
+    }
+
+    public boolean canPlay(int i) {
+        if (isEmpty())
+            return true;
+       Card card = this.trick.getCurrentPlayer().cards.get(i); 
+        if(card.suit == this.trick.trump.suit)
+            return true;
+        else if (this.trick.leadingSuit == card.suit) 
+            return true;
+        else if (this.trick.table.get((i+2)%4).suit != null) {
+            if (this.trick.table.get((i+2)%4) == this.trick.findHihgestCard()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int pardNer() {
+        for (int i = 0; i < this.trick.players.size(); i++)
+            if (this.trick.players.get(i).id == client.me.id)
+                return (i+2)%4;
+        return -1;
+    }
+
+    public void reset(ArrayList<Button> cards) {
+        Image image = new Image("/images/back.png");
+        clearTable(cards);
+        potTrump.setImage(image);
+        for (int i = 0; i < cards.size(); i++) {
+            Button b = cards.get(i);
+            b.setVisible(true);
+        }
+        p0c0.setImage(image);
+        p0c1.setImage(image);
+        p0c2.setImage(image);
+        p0c3.setImage(image);
+        p0c4.setImage(image);
     }
 
     public void refreshHand() {
@@ -116,29 +257,108 @@ public class GUIController {
         p0c4.setImage(assignImage(trick.currentPlayer.cards.get(4)));
     }
 
-    public void setTrump(String text) { //CANT CHANGE TEXT NEED TO USE IMAGES im thinking hiding htem?
-        trump.setVisible(false);
+    public void setTrump(Card card) { //CANT CHANGE TEXT NEED TO USE IMAGES
+        potTrump.setImage(assignImage(card));
     }
 
     public void updateTrump() {
-        p0play.setImage(assignImage(trick.getTrump()));
+        potTrump.setImage(assignImage(trick.getTrump()));
+    }
+
+    public void updateScore() {
+        t0s0.setVisible(false);
+        t0s2.setVisible(false);
+        t0s4.setVisible(false);
+        t0s6.setVisible(false);
+        t0s8.setVisible(false);
+        t0s10.setVisible(false);
+        t1s0.setVisible(false);
+        t1s2.setVisible(false);
+        t1s4.setVisible(false);
+        t1s6.setVisible(false);
+        t1s8.setVisible(false);
+        t1s10.setVisible(false);
+        int me = 0;
+        for (int i = 0; i < this.trick.players.size(); i++) {
+            if (client.me.id == this.trick.players.get(i).id) {
+                me = i;
+            }
+        }
+        System.out.println("wins: " + wins[0] + " me: " + (me%2));
+        if ((me%2) == 0 ) {
+            if (wins[0] == 0)
+                t0s0.setVisible(true);
+            else if (wins[0] == 2)
+                t0s2.setVisible(true);
+            else if (wins[0] == 4)
+                t0s4.setVisible(true);
+            else if (wins[0] == 6)
+                t0s6.setVisible(true);
+            else if (wins[0] == 8)
+                t0s8.setVisible(true);
+            else
+                t0s10.setVisible(true);
+            if (wins[1] == 0)
+                t1s0.setVisible(true);
+            else if (wins[0] == 2)
+                t1s2.setVisible(true);
+            else if (wins[0] == 4)
+                t1s4.setVisible(true);
+            else if (wins[0] == 6)
+                t1s6.setVisible(true);
+            else if (wins[0] == 8)
+                t1s8.setVisible(true);
+            else
+                t1s10.setVisible(true);
+            } else {
+                if (wins[1] == 0)
+                t0s0.setVisible(true);
+            else if (wins[0] == 2)
+                t0s2.setVisible(true);
+            else if (wins[0] == 4)
+                t0s4.setVisible(true);
+            else if (wins[0] == 6)
+                t0s6.setVisible(true);
+            else if (wins[0] == 8)
+                t0s8.setVisible(true);
+            else
+                t0s10.setVisible(true);
+            if (wins[0] == 0)
+                t1s0.setVisible(true);
+            else if (wins[0] == 2)
+                t1s2.setVisible(true);
+            else if (wins[0] == 4)
+                t1s4.setVisible(true);
+            else if (wins[0] == 6)
+                t1s6.setVisible(true);
+            else if (wins[0] == 8)
+                t1s8.setVisible(true);
+            else
+                t1s10.setVisible(true);
+        }
+        
     }
 
 
     @FXML
     public void initialize() {
         // loop that adds each card in each player's hand to their hbox
-
-        
     }
 
     public void start() {
-        ArrayList<Button> carButtons = new ArrayList<>();
-        carButtons.add(b0);
-        carButtons.add(b1);
-        carButtons.add(b2);
-        carButtons.add(b3);
-        carButtons.add(b4);
+        //t0s0.setVisible(false);
+        t0s2.setVisible(false);
+        t0s4.setVisible(false);
+        t0s6.setVisible(false);
+        t0s8.setVisible(false);
+        t0s10.setVisible(false);
+        //t1s0.setVisible(false);
+        t1s2.setVisible(false);
+        t1s4.setVisible(false);
+        t1s6.setVisible(false);
+        t1s8.setVisible(false);
+        t1s10.setVisible(false);
+        this.cardButtons = new ArrayList<>(Arrays.asList(b0,b1,b2,b3,b4));
         try {
             this.client = new Client("localhost", 5000);
             client.join();
@@ -148,8 +368,13 @@ public class GUIController {
             System.out.println(e);
         }
         initButtons();
+        
         try {
-            gamePlay(carButtons);
+            while (wins[0] < 10 || wins[1] < 10) {
+                gamePlay(cardButtons);
+                reset(cardButtons);
+            }
+            
         } catch (Exception error) {
             System.out.println(error);
         }
@@ -157,39 +382,72 @@ public class GUIController {
 
     public void gamePlay(ArrayList<Button> cardButtons) throws IOException, ClassNotFoundException {
         this.trick = client.reciveTrick(); // trick to update face cards
+
         refreshHand();
         client.sendTrick();
-        
-        this.trick = client.reciveTrick();
+        disableCards(cardButtons);
+
+        this.trick = client.reciveTrick(); //select trump method
+
         if(this.trick.getPhase().equals("selectTrump")) {
+            b6.setDisable(false);
             b5.setDisable(false);
-            p0play.setImage(assignImage(this.trick.getTopCard()));
-            trick = client.reciveTrick(); //update trump 
-        } else { //trick is recived from up portion
-            System.out.println(trump.getText());
-            setTrump(trick.getTrump().suit);
+            setTrump(this.trick.getTopCard());
+            trick = client.reciveTrick(); //update trump trump
+        
+            if(this.trick.getPhase().equals("weridTrump")) {
+                weirdTrump(cardButtons);
+                trick = client.reciveTrick(); //post trump trick (update trump)
+                System.out.println(trick.phase);
+            }
         }
+        
+        weirdTrump = this.trick.weridTrump;
 
-        System.out.println("Im about to recive the update trump trick");
-
-       this.trick = client.reciveTrick();
-       updateTrump();
-        if (this.trick.dealer.getId() == client.me.getId()) {
-            System.out.println(trick.currentPlayer.getCards());
+        if (((this.trick.dealer.getId() == client.me.getId())) && !weirdTrump) {
+            setTrump(this.trick.getTopCard());
+            enableCards(cardButtons, true);
+            System.out.println("im dealer");
             dealerCards(cardButtons);
         }
-        client.sendTrick();
-
-        int turns = 0;
-        while (turns < 5) {
-            if(ifImPlayer()) {
-                turns++;
-            }
+        
+        this.trick = client.reciveTrick();
+        
+        b6.setDisable(true);
+        updateTrump();
+        
+        for (int i = 0; i < 5; i++) {
+            loop(cardButtons);
+            clearTable(cardButtons);
         }
     }
 
+    public void loop(ArrayList<Button> cardButtons) throws IOException, ClassNotFoundException{
+        wins = this.trick.wins;
+        
+        updateScore();
+        this.trick = null;
+        this.client.trick = null;
+
+        int turns = 0;
+        while (turns < 4) {
+            disableCards(cardButtons);
+
+            this.trick = client.reciveTrick();
+            updateTable();
+            if(ifImPlayer()) {
+                enableCards(cardButtons, false);
+                regularCards(cardButtons);
+                client.reciveTrick(); //stuck here
+            } else 
+                client.sendTrick(); //stuck here
+            turns++;
+        }
+        System.out.println("LOOP OVER");
+    }
+
     public boolean ifImPlayer() {
-        return this.trick.getCurrentPlayer().getId() == this.client.me.getId();
+        return this.trick.currentPlayer.id == this.client.me.id;
     }
 
     public boolean ifImDealer() {
@@ -287,44 +545,89 @@ public class GUIController {
     private ImageView p3play;
 
     @FXML
-    private Label team0score;
+    public ImageView potTrump;
 
     @FXML
-    private Label team1score;
+    private Label t0s0;
+
+    @FXML
+    private Label t0s10;
+
+    @FXML
+    private Label t0s2;
+
+    @FXML
+    private Label t0s4;
+
+    @FXML
+    private Label t0s6;
+
+    @FXML
+    private Label t0s8;
+
+    @FXML
+    private Label t1s0;
+
+    @FXML
+    private Label t1s2;
+
+    @FXML
+    private Label t1s4;
+
+    @FXML
+    private Label t1s6;
+
+    @FXML
+    private Label t1s8;
+
+    @FXML
+    private Label t1s10;
 
     @FXML
     public Label trump;
 
     @FXML
     void c0pressed(MouseEvent event) {
-        System.out.println("card 0");
-        p0c0.setVisible(false);
-        Card exampleCard = new Card(9, "spades");
-        p0play.setImage(assignImage(exampleCard));
+        
     }
 
     @FXML
     void c1pressed(MouseEvent event) {
-        System.out.println("card 1");
-        p0c1.setVisible(false);
+        
     }
 
     @FXML
     void c2pressed(MouseEvent event) {
-        System.out.println("card 2");
-        p0c2.setVisible(false);
+    
     }
 
     @FXML
     void c3pressed(MouseEvent event) {
-        System.out.println("card 3");
-        p0c3.setVisible(false);
+        
     }
 
     @FXML
     void c4pressed(MouseEvent event) {
-        System.out.println("card 4");
-        p0c4.setVisible(false);
+        
     }
 
+    @FXML
+    void nuhUhPressed(MouseEvent event) {
+
+    }
+
+    @FXML
+    void potTrumpPressed(MouseEvent event) {
+
+    }
+
+    @FXML
+    void score1(MouseEvent event) {
+
+    }
+
+    @FXML
+    void score2(MouseEvent event) {
+
+    }
 }
