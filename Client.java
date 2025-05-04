@@ -41,12 +41,12 @@ public class Client {
 
     public Trick reciveTrick() throws IOException, ClassNotFoundException{
         this.trick = (Trick) this.in.readObject();
-        System.out.println(this.trick.dealer.cards);
         return this.trick;
     }
 
     public void sendTrick() throws IOException, ClassNotFoundException{
+        this.out.reset();
         this.out.writeObject(this.trick);
-        //this.out.flush();
+        this.out.flush();
     }
 }
