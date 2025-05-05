@@ -127,6 +127,9 @@ public class Server {
                     reciveTrick(p);
                 }
             }
+            this.trick.calcWins();
+            this.trick.calcScore();
+            score = this.trick.score;
             return;
         }
 
@@ -148,11 +151,7 @@ public class Server {
                 sendTrick(p);
                 reciveTrick(p);
             }
-        }
-        this.trick.calcWins();
-        this.trick.calcScore();
-        score = this.trick.score;
-        
+        }        
         playHand(i+1);
     }
 
