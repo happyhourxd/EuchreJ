@@ -139,6 +139,7 @@ public class GUIController {
         p1CardsLeft = this.trick.cardsLeft[(me+1)%4];
         p2CardsLeft = this.trick.cardsLeft[(me+2)%4];
         p3CardsLeft = this.trick.cardsLeft[(me+3)%4];
+        System.out.println(p1CardsLeft + " " + p2CardsLeft + " " + p3CardsLeft);
     }
 
     public void updateCards() {
@@ -180,7 +181,7 @@ public class GUIController {
         for (int i = 4; i > p2CardsLeft - 1; i--) {
             this.p2cards[i].setVisible(false);
         }
-        for (int i = 4; i > p2CardsLeft - 1; i--) {
+        for (int i = 4; i > p3CardsLeft - 1; i--) {
             this.p3cards[i].setVisible(false);
         }
     }
@@ -208,6 +209,12 @@ public class GUIController {
 
 
     public void enableCards(ArrayList<Button> cardButtons, boolean always) {
+        int pos = 0;
+        for (int i = 0; i < trick.players.size(); i++) {
+            if (trick.players.get(i).id == client.me.id) {
+                pos = i;
+            }
+        }
         int amt = 0;
         if (always) { 
             for (int i = 0; i < cardButtons.size(); i++) {
@@ -217,7 +224,7 @@ public class GUIController {
         } else {
             for (int i = 0; i < cardButtons.size(); i++) {
                 Button b = cardButtons.get(i);
-                if (canPlay(i)) {
+                if (canPlay(i, pos)) {
                     b.setDisable(false);
                     amt++;
                 }
@@ -243,27 +250,23 @@ public class GUIController {
         return false;
     }
 
-    public boolean canPlay(int i) {
+    public boolean canPlay(int i, int me) {
         if (isEmpty())
             return true;
-       Card card = this.trick.getCurrentPlayer().cards.get(i); 
-        if(card.suit == this.trick.trump.suit)
+        Card card = this.trick.getCurrentPlayer().cards.get(i); 
+        System.out.println(this.trick.leadingSuit);
+        if(card.suit == this.trick.trump.suit) {
+            System.out.println(card + " matches trump suit");
             return true;
-        else if (this.trick.leadingSuit == card.suit) 
+        } else if (this.trick.leadingSuit == card.suit)
             return true;
-        else if (this.trick.table.get((i+2)%4).suit != null) {
-            if (this.trick.table.get((i+2)%4) == this.trick.findHihgestCard()) {
+        else if (this.trick.table.get((me+2)%4).suit != null) {
+            if (this.trick.table.get((me+2)%4) == this.trick.findHihgestCard()) {
+                System.out.println(this.trick.findHihgestCard() + " is the high card" + card + "  " + this.trick.table.get((me+2)%4));
                 return true;
             }
         }
         return false;
-    }
-
-    public int pardNer() {
-        for (int i = 0; i < this.trick.players.size(); i++)
-            if (this.trick.players.get(i).id == client.me.id)
-                return (i+2)%4;
-        return -1;
     }
 
     public void reset(ArrayList<Button> cards) {
@@ -459,6 +462,7 @@ public class GUIController {
 
     public void loop(ArrayList<Button> cardButtons) throws IOException, ClassNotFoundException{
         wins = this.trick.wins;
+        System.out.println("wins: " + this.trick.wins + " Score:" + this.trick.score);
         
         updateScore();
         this.trick = null;
