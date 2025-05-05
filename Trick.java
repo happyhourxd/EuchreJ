@@ -18,6 +18,7 @@ public class Trick implements Serializable{
     public ArrayList<Card> table;
     public String phase;
     public String leadingSuit;
+    public int[] cardsLeft = {5,5,5,5};
 
     public Trick(ArrayList<Player> players) {
         this.players = new ArrayList<>();
@@ -186,7 +187,6 @@ public class Trick implements Serializable{
         
         
         for (Card c : table) {
-            System.out.println(highest);
             if ((highest.suit != null) && c.suit != null) {
                 if (highest.suit.equals(trump.suit)) {
                     if(c.suit.equals(trump.suit) || isLeftBower(trump, c)) {
