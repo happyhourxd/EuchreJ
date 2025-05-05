@@ -32,7 +32,6 @@ public class Client {
         out.flush();
 
         Player p = (Player) in.readObject();
-        System.out.println(p);
     }
 
     public void setTrick(Trick trick) {
