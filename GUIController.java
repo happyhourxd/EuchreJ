@@ -16,6 +16,14 @@ public class GUIController {
     public int wins[] = {0,0};
     Boolean weirdTrump = false;
     ArrayList<Button> cardButtons = new ArrayList<>();
+    int cardsLeft = 5;
+    int p1CardsLeft = 5;
+    int p2CardsLeft = 5;
+    int p3CardsLeft = 5;
+    ImageView[] p1cards;
+    ImageView[] p2cards;
+    ImageView[] p3cards;
+
 
     Image assignImage(Card card) {
         return new Image("/images/" + card.number + card.suit + ".png");
@@ -88,11 +96,11 @@ public class GUIController {
                     p0play.setImage(assignImage(trick.getCurrentPlayer().cards.get(index)));
                     trick.play(trick.getCurrentPlayer().cards.get(index));
                     b.setVisible(false);
+                    cardsLeft--;
+                    updateCards();
                     client.setTrick(trick);
                     try {
-                       
                         client.sendTrick();
-                        
                     } catch (Exception error) {
                         System.out.println(error);
                     }
@@ -127,6 +135,22 @@ public class GUIController {
         }
     }
 
+    public void removeCard(int me) {
+        p1CardsLeft = this.trick.cardsLeft[(me+1)%4];
+        p2CardsLeft = this.trick.cardsLeft[(me+2)%4];
+        p3CardsLeft = this.trick.cardsLeft[(me+3)%4];
+    }
+
+    public void updateCards() {
+        int pos = 0;
+        for (int i = 0; i < trick.players.size(); i++) {
+            if (trick.players.get(i).id == client.me.id) {
+                pos = i;
+            }
+        }
+        this.trick.cardsLeft[pos]--;
+    }
+
     public void updateTable() {
         int pos = 0;
         for (int i = 0; i < trick.players.size(); i++) {
@@ -141,15 +165,23 @@ public class GUIController {
         }try {
             p2play.setImage(assignImage(trick.table.get((pos+2)%4)));
         } catch (Exception error) {
-
         }try {
             p3play.setImage(assignImage(trick.table.get((pos+3)%4)));
         } catch (Exception error) {
-
         }try {
             p0play.setImage(assignImage(trick.table.get(pos)));
         } catch (Exception error) {
 
+        }
+        removeCard(pos);
+        for (int i = 4; i > (p1CardsLeft - 1); i--) {
+            this.p1cards[i].setVisible(false);
+        }
+        for (int i = 4; i > p2CardsLeft - 1; i--) {
+            this.p2cards[i].setVisible(false);
+        }
+        for (int i = 4; i > p2CardsLeft - 1; i--) {
+            this.p3cards[i].setVisible(false);
         }
     }
 
@@ -190,7 +222,7 @@ public class GUIController {
                     amt++;
                 }
             }
-            if (amt == this.trick.currentPlayer.cards.size()) {
+            if (amt == cardsLeft) {
                 for (int i = 0; i< cardButtons.size(); i++) {
                     Button b = cardButtons.get(i);
                     b.setDisable(false);
@@ -284,7 +316,6 @@ public class GUIController {
                 me = i;
             }
         }
-        System.out.println("wins: " + wins[0] + " me: " + (me%2));
         if ((me%2) == 0 ) {
             if (wins[0] == 0)
                 t0s0.setVisible(true);
@@ -345,7 +376,12 @@ public class GUIController {
         // loop that adds each card in each player's hand to their hbox
     }
 
-    public void start() {
+    public void start(int port, String addr) {
+        this.p1cards = new ImageView[] {p1c0,p1c1,p1c2,p1c3,p1c4};
+        this.p2cards = new ImageView[] {p2c0,p2c1,p2c2,p2c3,p2c4};
+        this.p3cards = new ImageView[] {p3c0,p3c1,p3c2,p3c3,p3c4};
+
+
         //t0s0.setVisible(false);
         t0s2.setVisible(false);
         t0s4.setVisible(false);
@@ -360,7 +396,7 @@ public class GUIController {
         t1s10.setVisible(false);
         this.cardButtons = new ArrayList<>(Arrays.asList(b0,b1,b2,b3,b4));
         try {
-            this.client = new Client("localhost", 5000);
+            this.client = new Client(addr, port);
             client.join();
             b5.setDisable(true);
             
@@ -398,7 +434,6 @@ public class GUIController {
             if(this.trick.getPhase().equals("weridTrump")) {
                 weirdTrump(cardButtons);
                 trick = client.reciveTrick(); //post trump trick (update trump)
-                System.out.println(trick.phase);
             }
         }
         
@@ -438,9 +473,9 @@ public class GUIController {
             if(ifImPlayer()) {
                 enableCards(cardButtons, false);
                 regularCards(cardButtons);
-                client.reciveTrick(); //stuck here
+                client.reciveTrick();
             } else 
-                client.sendTrick(); //stuck here
+                client.sendTrick();
             turns++;
         }
         System.out.println("LOOP OVER");
@@ -495,6 +530,9 @@ public class GUIController {
 
     @FXML
     private ImageView p1c0;
+
+    @FXML
+    private ImageView p1c1;
 
     @FXML
     private ImageView p1c2;
@@ -628,6 +666,81 @@ public class GUIController {
 
     @FXML
     void score2(MouseEvent event) {
+
+    }
+
+    @FXML
+    void p1c0pressed(MouseEvent event) {
+
+    }
+
+    @FXML
+    void p1c1pressed(MouseEvent event) {
+
+    }
+
+    @FXML
+    void p1c2pressed(MouseEvent event) {
+
+    }
+
+    @FXML
+    void p1c3pressed(MouseEvent event) {
+
+    }
+
+    @FXML
+    void p1c4pressed(MouseEvent event) {
+
+    }
+
+    @FXML
+    void p2c0pressed(MouseEvent event) {
+
+    }
+
+    @FXML
+    void p2c1pressed(MouseEvent event) {
+
+    }
+
+    @FXML
+    void p2c2pressed(MouseEvent event) {
+
+    }
+
+    @FXML
+    void p2c3pressed(MouseEvent event) {
+
+    }
+
+    @FXML
+    void p2c4pressed(MouseEvent event) {
+
+    }
+
+    @FXML
+    void p3c0pressed(MouseEvent event) {
+
+    }
+
+    @FXML
+    void p3c1pressed(MouseEvent event) {
+
+    }
+
+    @FXML
+    void p3c2pressed(MouseEvent event) {
+
+    }
+
+    @FXML
+    void p3c3pressed(MouseEvent event) {
+
+    }
+
+    @FXML
+    void p3c4pressed(MouseEvent event) {
 
     }
 }
