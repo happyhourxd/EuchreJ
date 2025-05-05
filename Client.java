@@ -30,7 +30,7 @@ public class Client {
         out.writeObject(this.me);
         out.flush();
 
-        Player p = (Player) in.readObject();
+        me = (Player) in.readObject();
     }
 
     public void setTrick(Trick trick) {
