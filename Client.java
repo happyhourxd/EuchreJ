@@ -14,7 +14,6 @@ public class Client {
         this.addr = addr;
         this.port = port;
         this.me = new Player((int) System.nanoTime(), "name");
-
     }
 
     public void join() throws IOException, ClassNotFoundException {
