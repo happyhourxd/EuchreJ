@@ -59,6 +59,11 @@ public class Server {
         Player dealer = newTrick(this.players.get(3));
         while (wins[0] < 10 || wins[1] < 10) {
             newTrick(dealer);
+            this.trick.calcScore();
+            this.trick.cardsLeft[0] = 5;
+            this.trick.cardsLeft[1] = 5;
+            this.trick.cardsLeft[2] = 5;
+            this.trick.cardsLeft[3] = 5;
         }
     }
 
@@ -106,12 +111,13 @@ public class Server {
             sendTrick(p);
         }
 
-        
-
         for (int j = 0; j < 5; j++) {
             playHand(1);
             this.trick.clearTable();
-        } 
+            score = this.trick.score;
+            
+        }
+        this.trick.calcWins();
         return this.trick.dealer;
     }        
 
@@ -127,9 +133,6 @@ public class Server {
                     receiveTrick(p);
                 }
             }
-            this.trick.calcWins();
-            this.trick.calcScore();
-            score = this.trick.score;
             return;
         }
 
@@ -146,12 +149,14 @@ public class Server {
                 if (c.suit != null)
                 this.trick.leadingSuit = c.suit;
         }
+
         for (Player p : players) {
             if (p.getId() != tempPlayer.id) {
                 sendTrick(p);
                 receiveTrick(p);
             }
-        }        
+        }    
+        
         playHand(i+1);
     }
 

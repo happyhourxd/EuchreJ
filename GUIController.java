@@ -23,6 +23,7 @@ public class GUIController {
     ImageView[] p1cards;
     ImageView[] p2cards;
     ImageView[] p3cards;
+    ArrayList<Button> disabled = new ArrayList<>();
 
 
     Image assignImage(Card card) {
@@ -135,12 +136,6 @@ public class GUIController {
         }
     }
 
-    public void removeCard(int me) {
-        p1CardsLeft = this.trick.cardsLeft[(me+1)%4];
-        p2CardsLeft = this.trick.cardsLeft[(me+2)%4];
-        p3CardsLeft = this.trick.cardsLeft[(me+3)%4];
-    }
-
     public void updateCards() {
         int pos = 0;
         for (int i = 0; i < trick.players.size(); i++) {
@@ -173,14 +168,16 @@ public class GUIController {
         } catch (Exception error) {
 
         }
-        removeCard(pos);
+        p1CardsLeft = this.trick.cardsLeft[(pos+1)%4];
+        p2CardsLeft = this.trick.cardsLeft[(pos+2)%4];
+        p3CardsLeft = this.trick.cardsLeft[(pos+3)%4];
         for (int i = 4; i > (p1CardsLeft - 1); i--) {
             this.p1cards[i].setVisible(false);
         }
-        for (int i = 4; i > p2CardsLeft - 1; i--) {
+        for (int i = 4; i > (p2CardsLeft - 1); i--) {
             this.p2cards[i].setVisible(false);
         }
-        for (int i = 4; i > p3CardsLeft - 1; i--) {
+        for (int i = 4; i > (p3CardsLeft - 1); i--) {
             this.p3cards[i].setVisible(false);
         }
     }
@@ -214,7 +211,7 @@ public class GUIController {
                 pos = i;
             }
         }
-        int amt = 0;
+        int amt = 5;
         if (always) { 
             for (int i = 0; i < cardButtons.size(); i++) {
                 Button b = cardButtons.get(i);
@@ -225,15 +222,17 @@ public class GUIController {
                 Button b = cardButtons.get(i);
                 if (canPlay(i, pos)) {
                     b.setDisable(false);
-                    amt++;
+                } else {
+                    disabled.add(b);
+                    amt--;
                 }
             }
-            if (amt == cardsLeft) {
+            if (amt == 0) {
                 for (int i = 0; i< cardButtons.size(); i++) {
                     Button b = cardButtons.get(i);
                     b.setDisable(false);
                 }
-            }
+        }
         }
         
     }
@@ -250,10 +249,9 @@ public class GUIController {
     }
 
     public boolean canPlay(int i, int me) {
-        
         if (isEmpty())
             return true;
-        Card card = this.trick.getCurrentPlayer().cards.get(i); 
+        Card card = this.trick.getCurrentPlayer().cards.get(i);
         if(card.suit == this.trick.trump.suit)
             return true;
         else if (this.trick.leadingSuit == card.suit)
@@ -278,9 +276,16 @@ public class GUIController {
         Image image = new Image("/images/back.png");
         clearTable(cards);
         potTrump.setImage(image);
+        b6.setVisible(true);
+        this.cardsLeft = 5;
         for (int i = 0; i < cards.size(); i++) {
             Button b = cards.get(i);
             b.setVisible(true);
+        }
+        for (int i = 0; i < 5; i++) {
+            p1cards[i].setVisible(true);
+            p2cards[i].setVisible(true);
+            p3cards[i].setVisible(true);
         }
         p0c0.setImage(image);
         p0c1.setImage(image);
@@ -324,6 +329,7 @@ public class GUIController {
                 me = i;
             }
         }
+        System.out.println(" wins : " + wins[0] + ":" + wins[1]);
         if ((me%2) == 0 ) {
             if (wins[0] == 0)
                 t0s0.setVisible(true);
@@ -388,8 +394,6 @@ public class GUIController {
         this.p1cards = new ImageView[] {p1c0,p1c1,p1c2,p1c3,p1c4};
         this.p2cards = new ImageView[] {p2c0,p2c1,p2c2,p2c3,p2c4};
         this.p3cards = new ImageView[] {p3c0,p3c1,p3c2,p3c3,p3c4};
-
-
         //t0s0.setVisible(false);
         t0s2.setVisible(false);
         t0s4.setVisible(false);
@@ -472,7 +476,7 @@ public class GUIController {
     public void loop(ArrayList<Button> cardButtons) throws IOException, ClassNotFoundException{
         wins = this.trick.score;
         System.out.println("wins: " + this.trick.wins[0] + ":" + this.trick.wins[1] + " Score:" + this.trick.score[0] + this.trick.score[1]);
-        
+        disabled = new ArrayList<>();
         updateScore();
         this.trick = null;
         this.client.trick = null;

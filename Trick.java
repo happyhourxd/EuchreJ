@@ -141,7 +141,6 @@ public class Trick implements Serializable{
         } catch (Exception error) {
 
         }
-        
     }
 
     public void calcScore() {
