@@ -10,6 +10,9 @@ public class GUI extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        //nates code:
+
+
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("game.fxml"));
         Parent root = loader.load();
@@ -21,7 +24,7 @@ public class GUI extends Application {
     
         Thread connection = new Thread() {
             public void run() {
-                controller.start();
+                controller.start(5000, "localhost");
             }
         };
         connection.start();
