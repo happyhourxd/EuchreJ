@@ -1,7 +1,8 @@
 import java.net.*;
 import java.io.*;
+
 public class Client {
-    
+
     String addr;
     int port;
     Player me;
@@ -9,7 +10,7 @@ public class Client {
     private Socket s;
     ObjectInputStream in;
     ObjectOutputStream out;
-    
+
     public Client(String addr, int port) {
         this.addr = addr;
         this.port = port;
@@ -37,12 +38,12 @@ public class Client {
         this.trick = trick;
     }
 
-    public Trick reciveTrick() throws IOException, ClassNotFoundException{
+    public Trick receiveTrick() throws IOException, ClassNotFoundException {
         this.trick = (Trick) this.in.readObject();
         return this.trick;
     }
 
-    public void sendTrick() throws IOException, ClassNotFoundException{
+    public void sendTrick() throws IOException, ClassNotFoundException {
         this.out.reset();
         this.out.writeObject(this.trick);
         this.out.flush();

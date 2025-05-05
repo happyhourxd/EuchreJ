@@ -1,14 +1,14 @@
 import java.util.ArrayList;
 import java.io.Serializable;
 
-public class Trick implements Serializable{
+public class Trick implements Serializable {
 
     public ArrayList<Player> players = new ArrayList<>();
     private static final long serialVersionUID = 20; // the serialVersionUID, should be updated each time player is
     public Deck deck;
-    public int[] wins = {0,0};
-    public int[] score = {0,0};
-    public boolean weridTrump = false;
+    public int[] wins = { 0, 0 };
+    public int[] score = { 0, 0 };
+    public boolean weirdTrump = false;
     public boolean doneWifTrump = false;
     public Card trump = null;
     public Player dealer;
@@ -18,7 +18,7 @@ public class Trick implements Serializable{
     public ArrayList<Card> table;
     public String phase;
     public String leadingSuit;
-    public int[] cardsLeft = {5,5,5,5};
+    public int[] cardsLeft = { 5, 5, 5, 5 };
 
     public Trick(ArrayList<Player> players) {
         this.players = new ArrayList<>();
@@ -28,7 +28,7 @@ public class Trick implements Serializable{
         this.deck = new Deck();
         this.table = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
-            this.table.add(new Card(0,null));
+            this.table.add(new Card(0, null));
         }
 
         for (Player p : players) {
@@ -37,10 +37,10 @@ public class Trick implements Serializable{
     }
 
     public void setCurrentPlayer(Player player) {
-        for (int i = 0; i < players.size(); i++ )
+        for (int i = 0; i < players.size(); i++)
             if (this.players.get(i).id == player.id)
                 this.currentPlayer = this.players.get(i);
-                return;
+        return;
     }
 
     public void setCurrentPlayerByID(int id) {
@@ -54,7 +54,7 @@ public class Trick implements Serializable{
     public void clearTable() {
         this.table = new ArrayList<>();
         for (int i = 0; i < 4; i++)
-            this.table.add(new Card(0,null));
+            this.table.add(new Card(0, null));
     }
 
     public Player getCurrentPlayer() {
@@ -78,7 +78,7 @@ public class Trick implements Serializable{
             this.deck = new Deck();
         }
         this.deck.shuffle();
-        while(deck.getSize() > 6) {
+        while (deck.getSize() > 6) {
             players.get(0).giveCard(this.deck.drawCard());
             players.get(1).giveCard(this.deck.drawCard());
             players.get(2).giveCard(this.deck.drawCard());
@@ -113,10 +113,10 @@ public class Trick implements Serializable{
         for (int i = 0; i < players.size(); i++) {
             if (players.get(i).cards.contains(card)) {
                 players.get(i).play(card);
-                table.set(i,card);
+                table.set(i, card);
             }
         }
-        
+
         return this;
     }
 
@@ -124,11 +124,11 @@ public class Trick implements Serializable{
         Card highCard = findHihgestCard();
         int pos = 0;
         for (int i = 0; i < 4; i++) {
-            if(table.get(i) == highCard) {
+            if (table.get(i) == highCard) {
                 pos = i;
             }
         }
-        return (pos%2);
+        return (pos % 2);
     }
 
     public void calcWins() {
@@ -141,7 +141,7 @@ public class Trick implements Serializable{
         } catch (Exception error) {
 
         }
-        
+
     }
 
     public void calcScore() {
@@ -149,14 +149,14 @@ public class Trick implements Serializable{
             score[0] += 4;
         } else if (wins[0] == 3) {
             score[0] += 2;
-        } else if  (wins[1] == 5) {
-            score[1] += 4;   
+        } else if (wins[1] == 5) {
+            score[1] += 4;
         } else {
             score[1] += 2;
         }
     }
 
-    public void resetWins(){
+    public void resetWins() {
         wins[0] = 0;
         wins[1] = 0;
     }
@@ -179,22 +179,21 @@ public class Trick implements Serializable{
             if (players.get(i).id == dealer.id)
                 pos = i;
         }
-        pos = (pos+1)%4;
+        pos = (pos + 1) % 4;
 
         Card highest = table.get(0);
         Card first = table.get(pos);
-        
-        
+
         for (Card c : table) {
             if ((highest.suit != null) && c.suit != null) {
                 if (highest.suit.equals(trump.suit)) {
-                    if(c.suit.equals(trump.suit) || isLeftBower(trump, c)) {
+                    if (c.suit.equals(trump.suit) || isLeftBower(trump, c)) {
                         if (highest.number != 11) {
-                            if(c.number > highest.number) {
+                            if (c.number > highest.number) {
                                 highest = c;
                             }
                         }
-                    } 
+                    }
                 } else if (c.suit.equals(trump.suit) || isLeftBower(trump, c)) {
                     highest = c;
                 } else {
@@ -220,13 +219,13 @@ public class Trick implements Serializable{
     public boolean isLeftBower(Card card1, Card card2) {
         if (card2.number == 11) {
             if (card1.suit.equals("spades") && card2.suit.equals("clubs"))
-            return true;
-        if (card1.suit.equals("clubs") && card2.suit.equals("spades"))
-            return true;
-        if (card1.suit.equals("hearts") && card2.suit.equals("diamonds"))
-            return true;
-        if (card1.suit.equals("diamonds") && card2.suit.equals("hears"))
-            return true;
+                return true;
+            if (card1.suit.equals("clubs") && card2.suit.equals("spades"))
+                return true;
+            if (card1.suit.equals("hearts") && card2.suit.equals("diamonds"))
+                return true;
+            if (card1.suit.equals("diamonds") && card2.suit.equals("hears"))
+                return true;
         }
         return false;
     }
