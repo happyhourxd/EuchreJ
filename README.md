@@ -1,15 +1,15 @@
 A server needs to exist for the clients to join!
 
-Run one instace of the startServer.java! -- note the port and ip used!! (if you want a diffrent port it can be changed in that file)
+Run one instace of the startServer.java to start the server! Note the port and ip used. (If you want a different port, it can be changed in that file.)
 
-run main on each clinet using the ip of the host of the server and the port selected!
+Run Main.java on each client's device using the ip of the host of the server, and the selected port! (All clients can be ran on the same device if necessary.)
 
-now it should run once all 4 players are connected! the first player and third player are on a team and so are the second and forth!
+Once all 4 players are connected, the game will run. The first player and third player are on a team, and so are the second and fourth.
 
-how to play euchre:
+How to play Euchre:
 
-first all players select whether they want the trump card in the bottom left. (by ether clicking on it or no thanks)
+First, all players take turns selecting whether they want the trump card in the bottom left. If they click on the card, that suit becomes trump. If they don't want that suit to be trump, they click no thanks, and the decision passes to the next player.
 
-if nobody wanted that trump card then players must select a trump suit, going around to each player seeing if they want to select a suit -- if not dealer must select one
+If nobody wanted that suit to be trump, then players must select a trump suit, going around to each player seeing if they want to select a suit. If nobody selects a suit, The dealer must select one.
 
-then play the game!! with normal euchre scoring in the top left!
+Then, play the game! Players go around selecting a single card to play. Score is displayed in the top right.
