@@ -139,7 +139,6 @@ public class GUIController {
         p1CardsLeft = this.trick.cardsLeft[(me+1)%4];
         p2CardsLeft = this.trick.cardsLeft[(me+2)%4];
         p3CardsLeft = this.trick.cardsLeft[(me+3)%4];
-        System.out.println(p1CardsLeft + " " + p2CardsLeft + " " + p3CardsLeft);
     }
 
     public void updateCards() {
@@ -162,7 +161,7 @@ public class GUIController {
         try {
             p1play.setImage(assignImage(trick.table.get((pos+1)%4)));
         } catch (Exception error) {
-            System.out.println("update table " + error);
+            
         }try {
             p2play.setImage(assignImage(trick.table.get((pos+2)%4)));
         } catch (Exception error) {
@@ -251,21 +250,27 @@ public class GUIController {
     }
 
     public boolean canPlay(int i, int me) {
+        
         if (isEmpty())
             return true;
         Card card = this.trick.getCurrentPlayer().cards.get(i); 
-        System.out.println(this.trick.leadingSuit);
-        if(card.suit == this.trick.trump.suit) {
-            System.out.println(card + " matches trump suit");
+        if(card.suit == this.trick.trump.suit)
             return true;
-        } else if (this.trick.leadingSuit == card.suit)
+        else if (this.trick.leadingSuit == card.suit)
             return true;
-        else if (this.trick.table.get((me+2)%4).suit != null) {
-            if (this.trick.table.get((me+2)%4) == this.trick.findHihgestCard()) {
-                System.out.println(this.trick.findHihgestCard() + " is the high card" + card + "  " + this.trick.table.get((me+2)%4));
+        else if (this.trick.table.get((me+2)%4).suit != null) 
+        /*
+         * Depending on the version of euchre this rule is contriversal
+         * -- house rules --
+         * 
+         * if you are currently winning trick you do NOT have to follow suit
+         * 
+         * -- some offical rules --
+         * 
+         * some rules say YOU HAVE to follow suit, this isn't as fun
+         */
+            if (this.trick.table.get((me+2)%4) == this.trick.findHihgestCard())
                 return true;
-            }
-        }
         return false;
     }
 
@@ -420,6 +425,10 @@ public class GUIController {
     }
 
     public void gamePlay(ArrayList<Button> cardButtons) throws IOException, ClassNotFoundException {
+        /*
+         * for the love of god please dont change any of the sendTrick or recive tricks, its a delecate balance
+         * this is the main gameplay loop for the client side
+         */
         this.trick = client.reciveTrick(); // trick to update face cards
 
         refreshHand();
@@ -461,8 +470,8 @@ public class GUIController {
     }
 
     public void loop(ArrayList<Button> cardButtons) throws IOException, ClassNotFoundException{
-        wins = this.trick.wins;
-        System.out.println("wins: " + this.trick.wins + " Score:" + this.trick.score);
+        wins = this.trick.score;
+        System.out.println("wins: " + this.trick.wins[0] + ":" + this.trick.wins[1] + " Score:" + this.trick.score[0] + this.trick.score[1]);
         
         updateScore();
         this.trick = null;
