@@ -18,8 +18,8 @@
   </columnConstraints>
   <rowConstraints>
     <RowConstraints maxHeight="140.0" minHeight="10.0" prefHeight="140.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="550.0" minHeight="10.0" prefHeight="550.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="140.0" minHeight="0.0" prefHeight="140.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="550.0" minHeight="10.0" prefHeight="543.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="147.0" minHeight="0.0" prefHeight="147.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
       <HBox alignment="CENTER" prefHeight="434.0" prefWidth="734.0" spacing="20.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
@@ -149,62 +149,57 @@
       </VBox>
       <HBox alignment="CENTER" rotate="90.0" spacing="20.0" translateX="-170.0" GridPane.rowIndex="1">
          <children>
-            <ImageView fx:id="p1c0" onMouseClicked="#c0pressed" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="p1c0" onMouseClicked="#p1c0pressed" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/back.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="p1c2" onMouseClicked="#c1pressed" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="p1c1" onMouseClicked="#p1c1pressed" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/back.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="p1c2" onMouseClicked="#c2pressed" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="p1c2" onMouseClicked="#p1c2pressed" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/back.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="p1c3" onMouseClicked="#c3pressed" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="p1c3" onMouseClicked="#p1c3pressed" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/back.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="p1c4" onMouseClicked="#c4pressed" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="p1c4" onMouseClicked="#p1c4pressed" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/back.png" />
                </image>
             </ImageView>
          </children>
       </HBox>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-         <children>
-            <Label text="Current Trump: " />
-            <Label fx:id="trump" text="None" />
-         </children>
-      </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" />
       <HBox alignment="CENTER" rotate="-90.0" spacing="20.0" translateX="-170.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
          <children>
-            <ImageView fx:id="p3c0" onMouseClicked="#c0pressed" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="p3c0" onMouseClicked="#p3c0pressed" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/back.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="p3c1" onMouseClicked="#c1pressed" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="p3c1" onMouseClicked="#p3c1pressed" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/back.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="p3c2" onMouseClicked="#c2pressed" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="p3c2" onMouseClicked="#p3c2pressed" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/back.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="p3c3" onMouseClicked="#c3pressed" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="p3c3" onMouseClicked="#p3c3pressed" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/back.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="p3c4" onMouseClicked="#c4pressed" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="p3c4" onMouseClicked="#p3c4pressed" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/back.png" />
                </image>
@@ -213,27 +208,27 @@
       </HBox>
       <HBox alignment="CENTER" prefHeight="434.0" prefWidth="734.0" rotate="180.0" spacing="20.0" GridPane.columnIndex="1">
          <children>
-            <ImageView fx:id="p2c0" onMouseClicked="#c0pressed" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="p2c0" onMouseClicked="#p2c0pressed" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/back.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="p2c1" onMouseClicked="#c1pressed" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="p2c1" onMouseClicked="#p2c1pressed" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/back.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="p2c2" onMouseClicked="#c2pressed" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="p2c2" onMouseClicked="#p2c2pressed" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/back.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="p2c3" onMouseClicked="#c3pressed" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="p2c3" onMouseClicked="#p2c3pressed" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/back.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="p2c4" onMouseClicked="#c4pressed" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="p2c4" onMouseClicked="#p2c4pressed" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/back.png" />
                </image>
@@ -242,6 +237,7 @@
       </HBox>
       <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2">
          <children>
+            <Label text="Current Trump" />
             <Button fx:id="b5" mnemonicParsing="false">
                <graphic>
                   <ImageView fx:id="potTrump" fitHeight="92.0" fitWidth="85.0" onMouseClicked="#potTrumpPressed" pickOnBounds="true" preserveRatio="true">
@@ -251,7 +247,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="b6" mnemonicParsing="false" onMousePressed="#nuhUhPressed" text="nuh uh" />
+            <Button fx:id="b6" mnemonicParsing="false" onMousePressed="#nuhUhPressed" text="No thanks" />
          </children>
       </VBox>
    </children>
