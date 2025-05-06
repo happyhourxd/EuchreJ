@@ -57,7 +57,10 @@ public class Server {
 
         System.out.println("All connections made!");
         Player dealer = newTrick(this.players.get(3));
-        while (wins[0] < 10 || wins[1] < 10) {
+        System.out.println("calculating score...");
+        this.trick.calcScore();
+        while (score[0] < 10 || score[1] < 10) {
+            score = this.trick.score;
             newTrick(dealer);
             this.trick.calcScore();
             this.trick.cardsLeft[0] = 5;
@@ -69,6 +72,8 @@ public class Server {
 
     public Player newTrick(Player dealer) throws IOException, ClassNotFoundException{
         this.trick = new Trick(players);
+        this.trick.score[0] += score[0];
+        this.trick.score[1] += score[1];
         for (int i = 0; i < players.size(); i++) {
             if (this.trick.players.get(i).id == dealer.id) {
                 this.trick.setDealer(this.trick.getPlayer((i+1)%4).id);
@@ -113,11 +118,11 @@ public class Server {
 
         for (int j = 0; j < 5; j++) {
             playHand(1);
+            this.trick.calcWins();
             this.trick.clearTable();
             score = this.trick.score;
-            
         }
-        this.trick.calcWins();
+        
         return this.trick.dealer;
     }        
 
