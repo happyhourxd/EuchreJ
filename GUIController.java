@@ -435,7 +435,7 @@ public class GUIController {
          * this is the main gameplay loop for the client side
          */
         this.trick = client.receiveTrick(); // trick to update face cards
-
+        updateScore();
         refreshHand();
         client.sendTrick();
         disableCards(cardButtons);
