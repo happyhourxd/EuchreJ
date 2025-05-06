@@ -146,7 +146,7 @@ public class Trick implements Serializable{
     public void calcScore() {
         if (wins[0] == 5) {
             score[0] += 4;
-        } else if (wins[0] == 3) {
+        } else if (wins[0] > 2) {
             score[0] += 2;
         } else if  (wins[1] == 5) {
             score[1] += 4;   
