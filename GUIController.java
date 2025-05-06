@@ -329,8 +329,6 @@ public class GUIController {
                 me = i;
             }
         }
-        System.out.println(" wins: " + wins[0] + ":" + wins[1]);
-        System.out.println(me%2);
         if ((me%2) == 0 ) {
             if (this.trick.score[0] == 0)
                 t0s0.setVisible(true);
@@ -488,7 +486,6 @@ public class GUIController {
             this.trick = client.receiveTrick();
             updateScore();
             wins = this.trick.score;
-            System.out.println("wins: " + this.trick.wins[0] + ":" + this.trick.wins[1] + " Score:" + this.trick.score[0] + this.trick.score[1]);
             updateTable();
             if(ifImPlayer()) {
                 enableCards(cardButtons, false);
