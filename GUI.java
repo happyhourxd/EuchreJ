@@ -34,6 +34,7 @@ public class GUI extends Application {
     
         Thread connection = new Thread() {
             public void run() {
+                System.out.println(value[0] + " " + value[1]);
                 controller.start(Integer.parseInt(value[0]), value[1]);
             }
         };
@@ -76,7 +77,8 @@ public class GUI extends Application {
 
         // Defining "connect"
         connectButton.addActionListener(e -> {
-            String ip = ipField.getText().trim(); // Read input from the text fields, and trim
+            ip = ipField.getText().trim(); // Read input from the text fields, and trim
+            
             String portText = portField.getText().trim(); 
 
             // no IP = default (host)
@@ -100,6 +102,7 @@ public class GUI extends Application {
         } catch (InterruptedException ex) {
             ex.printStackTrace();
         }
+        System.out.println("ip: " + ip);
         String[] newString = {Integer.toString(port),ip};
         return newString;
     }

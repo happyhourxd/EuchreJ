@@ -36,14 +36,14 @@ public class Trick implements Serializable{
         }
     }
 
-    public void setCurrentPlayer(Player player) {
+    public void setCurrentPlayer(Player player) { //set current player
         for (int i = 0; i < players.size(); i++ )
             if (this.players.get(i).id == player.id)
                 this.currentPlayer = this.players.get(i);
                 return;
     }
 
-    public void setCurrentPlayerByID(int id) {
+    public void setCurrentPlayerByID(int id) { //set current player via id
         for (Player p : this.players)
             if (p.id == id) {
                 this.currentPlayer = p;
@@ -51,7 +51,7 @@ public class Trick implements Serializable{
             }
     }
 
-    public void clearTable() {
+    public void clearTable() { //clears the table
         this.table = new ArrayList<>();
         for (int i = 0; i < 4; i++)
             this.table.add(new Card(0,null));
@@ -59,10 +59,6 @@ public class Trick implements Serializable{
 
     public Player getCurrentPlayer() {
         return this.currentPlayer;
-    }
-
-    public void scp(Player player) {
-        this.currentPlayer = player;
     }
 
     public void setPhase(String phase) {
@@ -73,7 +69,7 @@ public class Trick implements Serializable{
         return this.phase;
     }
 
-    public Trick deal() {
+    public Trick deal() { //deal all the cards
         if (this.deck.getSize() < 24) {
             this.deck = new Deck();
         }
@@ -95,12 +91,12 @@ public class Trick implements Serializable{
         this.trump = trump;
     }
 
-    public void trump() {
+    public void trump() { //sets the trump for the top card of the deck
         this.doneWifTrump = true;
         this.trump = new Card(deck.getTop());
     }
 
-    public void dealerTrade(Card card) {
+    public void dealerTrade(Card card) { //allows the dealer to trade out of their cards for the trump card
         for (Player p : players) {
             if (p.id == dealer.id) {
                 p.cards.remove(card);
@@ -109,7 +105,7 @@ public class Trick implements Serializable{
         }
     }
 
-    public Trick play(Card card) {
+    public Trick play(Card card) { //plays a play's card
         for (int i = 0; i < players.size(); i++) {
             if (players.get(i).cards.contains(card)) {
                 players.get(i).play(card);
@@ -120,7 +116,7 @@ public class Trick implements Serializable{
         return this;
     }
 
-    public int findHighestTeam() {
+    public int findHighestTeam() { //finds the team that played the highest card
         Card highCard = findHihgestCard();
         int pos = 0;
         for (int i = 0; i < 4; i++) {
@@ -131,7 +127,7 @@ public class Trick implements Serializable{
         return (pos%2);
     }
 
-    public void calcWins() {
+    public void calcWins() { //calcualte who won
         try {
             if (findHighestTeam() == 1) {
                 wins[0]++;
@@ -143,7 +139,7 @@ public class Trick implements Serializable{
         }
     }
 
-    public void calcScore() {
+    public void calcScore() { //calculate the score
         if (wins[0] == 5) {
             score[0] += 4;
         } else if (wins[0] > 2) {
@@ -160,7 +156,7 @@ public class Trick implements Serializable{
         wins[1] = 0;
     }
 
-    public Card findHihgestCard() {
+    public Card findHihgestCard() { //finding highest card logic
         int amtnull = 0;
         for (Card c : this.table) {
             if (c.suit == null)
@@ -182,8 +178,6 @@ public class Trick implements Serializable{
 
         Card highest = table.get(0);
         Card first = table.get(pos);
-        
-        
         for (Card c : table) {
             if ((highest.suit != null) && c.suit != null) {
                 if (highest.suit.equals(trump.suit)) {
@@ -216,7 +210,7 @@ public class Trick implements Serializable{
         return highest;
     }
 
-    public boolean isLeftBower(Card card1, Card card2) {
+    public boolean isLeftBower(Card card1, Card card2) { //determines if card is left bower
         if (card2.number == 11) {
             if (card1.suit.equals("spades") && card2.suit.equals("clubs"))
             return true;

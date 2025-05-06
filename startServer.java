@@ -1,4 +1,4 @@
-// run this file to start the server (required)
+ // run this file to start the server (required)
 public class startServer {
 
     static int port = 5000; // change to change port

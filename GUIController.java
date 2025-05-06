@@ -30,7 +30,7 @@ public class GUIController {
         return new Image("/images/" + card.number + card.suit + ".png");
     }
 
-    public void initButtons() {
+    public void initButtons() {//init the trump and no thanks button
         System.out.println("buttons initialized!");
         b6.setDisable(true);
         b5.setDisable(true);
@@ -40,6 +40,7 @@ public class GUIController {
             public void handle(ActionEvent e) {
                 trick.trump();
                 b5.setDisable(true);
+                b6.setDisable(true);
                 try {
                     client.sendTrick();
                     
@@ -64,7 +65,7 @@ public class GUIController {
         });
     }
 
-    public void dealerCards(ArrayList<Button> carButtons) {
+    public void dealerCards(ArrayList<Button> carButtons) { //gets cards ready for dealer to trade them with trump
         enableCards(carButtons, true);
         for(int i = 0; i < carButtons.size(); i++) {
             Button b = carButtons.get(i);
@@ -87,7 +88,7 @@ public class GUIController {
         }
     }
 
-    public void regularCards(ArrayList<Button> cardButtons) {
+    public void regularCards(ArrayList<Button> cardButtons) { //makes the cards actions ready to play
         for (int i = 0; i < cardButtons.size(); i++) {
             Button b = cardButtons.get(i);
             int index = i;
@@ -110,7 +111,7 @@ public class GUIController {
         }
     }
 
-    public void weirdTrump(ArrayList<Button> cardButtons) {
+    public void weirdTrump(ArrayList<Button> cardButtons) { //weird trump cards essentally dealer cards
         weirdTrump = true;
         this.trick.weirdTrump = true;
         enableCards(cardButtons, true);
@@ -136,7 +137,7 @@ public class GUIController {
         }
     }
 
-    public void updateCards() {
+    public void updateCards() { //updates other players cards
         int pos = 0;
         for (int i = 0; i < trick.players.size(); i++) {
             if (trick.players.get(i).id == client.me.id) {
@@ -146,7 +147,7 @@ public class GUIController {
         this.trick.cardsLeft[pos]--;
     }
 
-    public void updateTable() {
+    public void updateTable() { //updated playerd cards images
         int pos = 0;
         for (int i = 0; i < trick.players.size(); i++) {
             if (trick.players.get(i).id == client.me.id) {
@@ -182,29 +183,28 @@ public class GUIController {
         }
     }
 
-    public void clearTable(ArrayList<Button> cardButtons) {
+    public void clearTable(ArrayList<Button> cardButtons) {//clears the table
         p0play.setImage(new Image("/images/back.png"));
         p1play.setImage(new Image("/images/back.png"));
         p2play.setImage(new Image("/images/back.png"));
         p3play.setImage(new Image("/images/back.png"));
     }
 
-    public void disableCards(ArrayList<Button> cardButtons) {
+    public void disableCards(ArrayList<Button> cardButtons) { //turns the cards off
         for (int i = 0; i < this.cardButtons.size(); i++) {
             Button b = this.cardButtons.get(i);
             b.setDisable(true);
         }
     }
 
-    public void disableCards() {
+    public void disableCards() { //turns off the cards
         for (int i = 0; i < this.cardButtons.size(); i++) {
             Button b = this.cardButtons.get(i);
             b.setDisable(true);
         }
     }
 
-
-    public void enableCards(ArrayList<Button> cardButtons, boolean always) {
+    public void enableCards(ArrayList<Button> cardButtons, boolean always) { //turns on the cards if they can be
         int pos = 0;
         for (int i = 0; i < trick.players.size(); i++) {
             if (trick.players.get(i).id == client.me.id) {
@@ -237,7 +237,7 @@ public class GUIController {
         
     }
 
-    public boolean isEmpty() {
+    public boolean isEmpty() { //checks if the table is empty
         int amt = 0;
         for (Card c : this.trick.table) {
             if (c.suit == null)
@@ -248,7 +248,7 @@ public class GUIController {
         return false;
     }
 
-    public boolean canPlay(int i, int me) {
+    public boolean canPlay(int i, int me) { //checks if a card can be playd with current cards on the table
         if (isEmpty())
             return true;
         Card card = this.trick.getCurrentPlayer().cards.get(i);
@@ -272,7 +272,7 @@ public class GUIController {
         return false;
     }
 
-    public void reset(ArrayList<Button> cards) {
+    public void reset(ArrayList<Button> cards) { //resets the screen
         Image image = new Image("/images/back.png");
         clearTable(cards);
         potTrump.setImage(image);
@@ -294,7 +294,7 @@ public class GUIController {
         p0c4.setImage(image);
     }
 
-    public void refreshHand() {
+    public void refreshHand() { //refreshes players hand
         p0c0.setImage(assignImage(trick.currentPlayer.cards.get(0)));
         p0c1.setImage(assignImage(trick.currentPlayer.cards.get(1)));
         p0c2.setImage(assignImage(trick.currentPlayer.cards.get(2)));
@@ -302,14 +302,14 @@ public class GUIController {
         p0c4.setImage(assignImage(trick.currentPlayer.cards.get(4)));
     }
 
-    public void setTrump(Card card) { //CANT CHANGE TEXT NEED TO USE IMAGES
+    public void setTrump(Card card) { //just updates left corrner card
         potTrump.setImage(assignImage(card));
     }
 
-    public void updateTrump() {
+    public void updateTrump() { //updates it with trump from trick
         potTrump.setImage(assignImage(trick.getTrump()));
     }
-
+ 
     public void updateScore() {
         t0s0.setVisible(false);
         t0s2.setVisible(false);
@@ -389,7 +389,7 @@ public class GUIController {
         // loop that adds each card in each player's hand to their hbox
     }
 
-    public void start(int port, String addr) {
+    public void start(int port, String addr) { //starts the gui
         this.p1cards = new ImageView[] {p1c0,p1c1,p1c2,p1c3,p1c4};
         this.p2cards = new ImageView[] {p2c0,p2c1,p2c2,p2c3,p2c4};
         this.p3cards = new ImageView[] {p3c0,p3c1,p3c2,p3c3,p3c4};
@@ -427,7 +427,7 @@ public class GUIController {
         }
     }
 
-    public void gamePlay(ArrayList<Button> cardButtons) throws IOException, ClassNotFoundException {
+    public void gamePlay(ArrayList<Button> cardButtons) throws IOException, ClassNotFoundException { //actual gameplay loop
         /*
          * for the love of god please dont change any of the sendTrick or receive tricks, its a delecate balance
          * this is the main gameplay loop for the client side
@@ -472,8 +472,7 @@ public class GUIController {
         }
     }
 
-    public void loop(ArrayList<Button> cardButtons) throws IOException, ClassNotFoundException{
-        
+    public void loop(ArrayList<Button> cardButtons) throws IOException, ClassNotFoundException { //playing hand loop
         disabled = new ArrayList<>();
         updateScore();
         this.trick = null;
