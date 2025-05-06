@@ -329,7 +329,8 @@ public class GUIController {
                 me = i;
             }
         }
-        System.out.println(" wins : " + wins[0] + ":" + wins[1]);
+        System.out.println(" wins: " + wins[0] + ":" + wins[1]);
+        System.out.println(me%2);
         if ((me%2) == 0 ) {
             if (wins[0] == 0)
                 t0s0.setVisible(true);
@@ -355,8 +356,8 @@ public class GUIController {
                 t1s8.setVisible(true);
             else
                 t1s10.setVisible(true);
-            } else {
-                if (wins[1] == 0)
+        } else {
+            if (wins[1] == 0)
                 t0s0.setVisible(true);
             else if (wins[0] == 2)
                 t0s2.setVisible(true);
@@ -474,8 +475,7 @@ public class GUIController {
     }
 
     public void loop(ArrayList<Button> cardButtons) throws IOException, ClassNotFoundException{
-        wins = this.trick.score;
-        System.out.println("wins: " + this.trick.wins[0] + ":" + this.trick.wins[1] + " Score:" + this.trick.score[0] + this.trick.score[1]);
+        
         disabled = new ArrayList<>();
         updateScore();
         this.trick = null;
@@ -486,6 +486,9 @@ public class GUIController {
             disableCards(cardButtons);
 
             this.trick = client.receiveTrick();
+            updateScore();
+            wins = this.trick.score;
+            System.out.println("wins: " + this.trick.wins[0] + ":" + this.trick.wins[1] + " Score:" + this.trick.score[0] + this.trick.score[1]);
             updateTable();
             if(ifImPlayer()) {
                 enableCards(cardButtons, false);
