@@ -24,9 +24,6 @@ public class GUI extends Application {
         //nates code:
         String[] value = connectionGUI();
 
-        System.out.println("eek");
-
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("game.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
@@ -92,8 +89,6 @@ public class GUI extends Application {
                 JOptionPane.showMessageDialog(frame, "Invalid port. Using default (5000).");
                 port = 5000;
             }
-
-            System.out.println("eek2");
             // Close the window after function
             done = true;
             frame.dispose();
@@ -105,12 +100,9 @@ public class GUI extends Application {
         } catch (InterruptedException ex) {
             ex.printStackTrace();
         }
-        System.out.println("eek3");
         String[] newString = {Integer.toString(port),ip};
         return newString;
     }
-
-    
 
     public static void main(String[] args) {
         launch(args);
