@@ -332,52 +332,52 @@ public class GUIController {
         System.out.println(" wins: " + wins[0] + ":" + wins[1]);
         System.out.println(me%2);
         if ((me%2) == 0 ) {
-            if (wins[0] == 0)
+            if (this.trick.score[0] == 0)
                 t0s0.setVisible(true);
-            else if (wins[0] == 2)
+            else if (this.trick.score[0] == 2)
                 t0s2.setVisible(true);
-            else if (wins[0] == 4)
+            else if (this.trick.score[0] == 4)
                 t0s4.setVisible(true);
-            else if (wins[0] == 6)
+            else if (this.trick.score[0] == 6)
                 t0s6.setVisible(true);
-            else if (wins[0] == 8)
+            else if (this.trick.score[0] == 8)
                 t0s8.setVisible(true);
             else
                 t0s10.setVisible(true);
-            if (wins[1] == 0)
+            if (this.trick.score[1] == 0)
                 t1s0.setVisible(true);
-            else if (wins[0] == 2)
+            else if (this.trick.score[1] == 2)
                 t1s2.setVisible(true);
-            else if (wins[0] == 4)
+            else if (this.trick.score[1] == 4)
                 t1s4.setVisible(true);
-            else if (wins[0] == 6)
+            else if (this.trick.score[1] == 6)
                 t1s6.setVisible(true);
-            else if (wins[0] == 8)
+            else if (this.trick.score[1] == 8)
                 t1s8.setVisible(true);
             else
                 t1s10.setVisible(true);
         } else {
-            if (wins[1] == 0)
+            if (this.trick.score[1] == 0)
                 t0s0.setVisible(true);
-            else if (wins[0] == 2)
+            else if (this.trick.score[1] == 2)
                 t0s2.setVisible(true);
-            else if (wins[0] == 4)
+            else if (this.trick.score[1] == 4)
                 t0s4.setVisible(true);
-            else if (wins[0] == 6)
+            else if (this.trick.score[1] == 6)
                 t0s6.setVisible(true);
-            else if (wins[0] == 8)
+            else if (this.trick.score[1] == 8)
                 t0s8.setVisible(true);
             else
                 t0s10.setVisible(true);
-            if (wins[0] == 0)
+            if (this.trick.score[0] == 0)
                 t1s0.setVisible(true);
-            else if (wins[0] == 2)
+            else if (this.trick.score[0] == 2)
                 t1s2.setVisible(true);
-            else if (wins[0] == 4)
+            else if (this.trick.score[0] == 4)
                 t1s4.setVisible(true);
-            else if (wins[0] == 6)
+            else if (this.trick.score[0] == 6)
                 t1s6.setVisible(true);
-            else if (wins[0] == 8)
+            else if (this.trick.score[0] == 8)
                 t1s8.setVisible(true);
             else
                 t1s10.setVisible(true);
